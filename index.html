@@ -1,0 +1,1777 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MH Rise & Sunbreak Master Codex (77 Monsters)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        mh: {
+                            gold: '#d4af37',
+                            goldlight: '#f3e5ab',
+                            golddark: '#9a7b18',
+                            bg: '#0c0f14',
+                            card: '#141c28',
+                            cardhover: '#1e293b',
+                            border: '#283548',
+                            sever: '#ef4444',
+                            blunt: '#f97316',
+                            ammo: '#10b981',
+                            fire: '#f97316',
+                            water: '#0ea5e9',
+                            thunder: '#eab308',
+                            ice: '#06b6d4',
+                            dragon: '#a855f7'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0c0f14;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(30, 41, 59, 0.7) 0%, rgba(12, 15, 20, 0.95) 80%),
+                radial-gradient(circle at 0% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+        .title-font {
+            font-family: 'Cinzel', serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0c0f14;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #283548;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #d4af37;
+        }
+        .hzv-high {
+            background-color: rgba(212, 175, 55, 0.22);
+            color: #f3e5ab;
+            font-weight: 700;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+        .hzv-med {
+            background-color: rgba(14, 165, 233, 0.15);
+            color: #7dd3fc;
+        }
+        .hzv-low {
+            color: #94a3b8;
+        }
+        .gold-glow {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+        .gold-border-glow:focus {
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+            border-color: #d4af37;
+        }
+    </style>
+</head>
+<body class="custom-scrollbar flex flex-col min-h-screen">
+
+    <header class="sticky top-0 z-30 bg-mh-bg/95 backdrop-blur border-b border-mh-border/80 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                
+                <!-- Logo & Title -->
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-lg bg-gradient-to-br from-mh-gold via-yellow-600 to-amber-800 flex items-center justify-center text-mh-bg font-black text-xl shadow-lg shadow-mh-gold/10 border border-mh-goldlight/50">
+                        <i class="fa-solid fa-dragon"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="title-font text-lg md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-mh-goldlight via-mh-gold to-amber-500 tracking-wider">
+                                MASTER CODEX
+                            </h1>
+                            <span class="text-[10px] bg-mh-gold/20 text-mh-gold font-bold px-2 py-0.5 rounded border border-mh-gold/40">77 MONSTERS</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Monster Hunter Rise & Sunbreak Complete Roster Database</p>
+                    </div>
+                </div>
+
+                <!-- Stats & Quick Bookmarks Toggle -->
+                <div class="flex items-center gap-2.5">
+                    <div class="bg-mh-card px-3 py-1.5 rounded-lg border border-mh-border flex items-center gap-2 text-xs">
+                        <span class="text-slate-400">Showing:</span>
+                        <span id="stat-showing" class="font-bold text-mh-gold">77</span>
+                        <span class="text-slate-600">/</span>
+                        <span class="text-slate-400">77</span>
+                    </div>
+
+                    <button id="btn-bookmarks-only" onclick="toggleBookmarksFilter()" class="px-3 py-1.5 rounded-lg bg-mh-card hover:bg-mh-cardhover border border-mh-border text-xs flex items-center gap-2 transition text-slate-300">
+                        <i id="bookmark-filter-icon" class="fa-regular fa-bookmark text-mh-gold"></i>
+                        <span>Bookmarks</span>
+                        <span id="bookmark-count" class="bg-mh-gold/20 text-mh-gold font-bold px-1.5 py-0.5 rounded text-[10px]">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- Controls Section -->
+        <section class="bg-mh-card/80 rounded-xl p-4 md:p-5 border border-mh-border/80 mb-6 backdrop-blur shadow-lg">
+            
+            <!-- Search Bar -->
+            <div class="relative mb-4">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="search-input" placeholder="Search by name, Japanese name, species, element, or tactics..." 
+                       class="w-full bg-mh-bg text-slate-100 pl-11 pr-10 py-3 rounded-lg border border-mh-border gold-border-glow outline-none text-sm placeholder:text-slate-500 transition">
+                <button id="clear-search" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Filter Dropdowns Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                
+                <!-- Rank Filter -->
+                <div>
+                    <label class="block text-slate-400 mb-1 font-medium">Expansion / Rank Tier</label>
+                    <select id="filter-rank" onchange="applyFilters()" class="w-full bg-mh-bg border border-mh-border rounded-lg px-3 py-2 text-slate-200 outline-none focus:border-mh-gold">
+                        <option value="all">All Tiers (LR, HR, MR, Apex/Risen)</option>
+                        <option value="Low Rank">Low Rank (Base Game)</option>
+                        <option value="High Rank">High Rank (Base Game)</option>
+                        <option value="Master Rank">Master Rank (Sunbreak Expansion)</option>
+                        <option value="Apex / Risen">Apex & Risen Variants</option>
+                    </select>
+                </div>
+
+                <!-- Species Filter -->
+                <div>
+                    <label class="block text-slate-400 mb-1 font-medium">Monster Species</label>
+                    <select id="filter-species" onchange="applyFilters()" class="w-full bg-mh-bg border border-mh-border rounded-lg px-3 py-2 text-slate-200 outline-none focus:border-mh-gold">
+                        <option value="all">All Species</option>
+                        <option value="Amphibian">Amphibian</option>
+                        <option value="Bird Wyvern">Bird Wyvern</option>
+                        <option value="Brute Wyvern">Brute Wyvern</option>
+                        <option value="Carapaceon">Carapaceon</option>
+                        <option value="Elder Dragon">Elder Dragon</option>
+                        <option value="Fanged Beast">Fanged Beast</option>
+                        <option value="Fanged Wyvern">Fanged Wyvern</option>
+                        <option value="Flying Wyvern">Flying Wyvern</option>
+                        <option value="Leviathan">Leviathan</option>
+                        <option value="Piscine Wyvern">Piscine Wyvern</option>
+                        <option value="Temnoceran">Temnoceran</option>
+                    </select>
+                </div>
+
+                <!-- Element Weakness Filter -->
+                <div>
+                    <label class="block text-slate-400 mb-1 font-medium">Primary Weakness</label>
+                    <select id="filter-element" onchange="applyFilters()" class="w-full bg-mh-bg border border-mh-border rounded-lg px-3 py-2 text-slate-200 outline-none focus:border-mh-gold">
+                        <option value="all">All Elements</option>
+                        <option value="Fire">Fire Weakness</option>
+                        <option value="Water">Water Weakness</option>
+                        <option value="Thunder">Thunder Weakness</option>
+                        <option value="Ice">Ice Weakness</option>
+                        <option value="Dragon">Dragon Weakness</option>
+                    </select>
+                </div>
+
+                <!-- Sorting -->
+                <div>
+                    <label class="block text-slate-400 mb-1 font-medium">Sort Order</label>
+                    <select id="filter-sort" onchange="applyFilters()" class="w-full bg-mh-bg border border-mh-border rounded-lg px-3 py-2 text-slate-200 outline-none focus:border-mh-gold">
+                        <option value="num-asc">Numerical Roster (1 to 77)</option>
+                        <option value="name-asc">Alphabetical (A-Z)</option>
+                        <option value="name-desc">Alphabetical (Z-A)</option>
+                        <option value="rank-asc">Progression (LR -> HR -> MR -> Risen)</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Quick Filter Badges -->
+            <div id="active-tags" class="mt-3 flex flex-wrap items-center gap-2 empty:hidden"></div>
+        </section>
+
+        <section id="monster-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <!-- Cards populated by JavaScript -->
+        </section>
+
+        <!-- Fallback Empty State -->
+        <div id="no-results" class="hidden py-16 text-center text-slate-400 bg-mh-card/40 rounded-xl border border-mh-border/50">
+            <i class="fa-solid fa-dragon text-5xl text-slate-600 mb-3"></i>
+            <h3 class="title-font text-lg text-slate-300 mb-1">No Monsters Found</h3>
+            <p class="text-xs text-slate-500">No monsters match your current query or filter combinations.</p>
+            <button onclick="resetAllFilters()" class="mt-4 px-4 py-2 bg-mh-gold/20 text-mh-gold hover:bg-mh-gold/30 border border-mh-gold/40 rounded-lg text-xs font-semibold transition">
+                Reset All Filters
+            </button>
+        </div>
+
+    </main>
+
+    <div id="detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 hidden">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-black/85 backdrop-blur-md transition-opacity" onclick="closeModal()"></div>
+
+        <!-- Modal Box -->
+        <div class="relative w-full max-w-4xl max-h-[92vh] bg-mh-card rounded-xl border border-mh-gold/40 shadow-2xl flex flex-col overflow-hidden z-10 gold-glow">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b border-mh-border bg-mh-bg/90">
+                <div class="flex items-center gap-3">
+                    <div id="modal-icon" class="w-12 h-12 rounded-lg bg-mh-bg border border-mh-border flex items-center justify-center text-2xl font-bold shadow-inner">
+                        <!-- Dynamic SVG Icon -->
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span id="modal-num" class="text-xs font-bold font-mono text-mh-gold">#00</span>
+                            <h2 id="modal-title" class="title-font text-xl md:text-2xl font-black text-mh-goldlight">Monster Name</h2>
+                        </div>
+                        <p id="modal-jp" class="text-xs text-slate-400 font-mono"></p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span id="modal-species" class="text-xs bg-mh-border/60 text-slate-300 px-2 py-0.5 rounded">Species</span>
+                            <span id="modal-rank" class="text-xs bg-mh-gold/10 text-mh-gold px-2 py-0.5 rounded border border-mh-gold/30">Rank</span>
+                            <span id="modal-habitat" class="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded"><i class="fa-solid fa-location-dot text-red-400 mr-1"></i><span id="modal-habitat-text">Habitat</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button id="modal-bookmark-btn" onclick="toggleBookmarkModal()" class="p-2.5 rounded-lg bg-mh-bg hover:bg-mh-cardhover border border-mh-border text-slate-300 transition">
+                        <i id="modal-bookmark-icon" class="fa-regular fa-bookmark"></i>
+                    </button>
+                    <button onclick="closeModal()" class="p-2.5 rounded-lg bg-mh-bg hover:bg-mh-cardhover border border-mh-border text-slate-400 hover:text-white transition">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Navigation Tabs -->
+            <div class="flex border-b border-mh-border bg-mh-bg/40 px-4 pt-2 gap-2 text-xs font-semibold overflow-x-auto custom-scrollbar">
+                <button id="tab-overview" onclick="switchTab('overview')" class="px-4 py-2.5 border-b-2 border-mh-gold text-mh-gold font-bold transition flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Overview & Tactics</span>
+                </button>
+                <button id="tab-hzv" onclick="switchTab('hzv')" class="px-4 py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Hitzone Values (HZVs)</span>
+                </button>
+                <button id="tab-gear" onclick="switchTab('gear')" class="px-4 py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Progression Builds & Counters</span>
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-4 md:p-6 overflow-y-auto custom-scrollbar flex-grow space-y-6 text-xs sm:text-sm">
+                
+                <!-- TAB 1: OVERVIEW & TACTICS -->
+                <div id="content-overview" class="space-y-6">
+                    <!-- Element & Status Breakdown Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <!-- Elemental Vulnerability -->
+                        <div class="bg-mh-bg/60 p-4 rounded-lg border border-mh-border/80">
+                            <h3 class="title-font text-xs font-bold text-mh-gold uppercase tracking-wider mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-bolt text-yellow-500"></i> Elemental Weakness Rating
+                            </h3>
+                            <div id="modal-element-weakness" class="space-y-2">
+                                <!-- Dynamic weaknesses -->
+                            </div>
+                        </div>
+
+                        <!-- Status Vulnerability -->
+                        <div class="bg-mh-bg/60 p-4 rounded-lg border border-mh-border/80">
+                            <h3 class="title-font text-xs font-bold text-mh-gold uppercase tracking-wider mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-flask text-purple-400"></i> Status & Ailment Effectiveness
+                            </h3>
+                            <div id="modal-status-weakness" class="grid grid-cols-2 gap-2">
+                                <!-- Dynamic status stats -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Combat Tactics & Counter Strategies -->
+                    <div class="bg-mh-bg/60 p-4 rounded-lg border border-mh-border/80">
+                        <h3 class="title-font text-xs font-bold text-mh-gold uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-crosshairs text-red-400"></i> Counter Strategies & Combat Mechanics
+                        </h3>
+                        <ul id="modal-counter-tips" class="list-disc list-inside space-y-2 text-slate-300">
+                            <!-- Dynamic counter tips -->
+                        </ul>
+                    </div>
+
+                    <!-- Quest HP Estimates -->
+                    <div class="bg-mh-bg/60 p-4 rounded-lg border border-mh-border/80">
+                        <h3 class="title-font text-xs font-bold text-mh-gold uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-heart-pulse text-rose-500"></i> Estimated Quest HP Ranges
+                        </h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                            <div class="bg-mh-card p-2.5 rounded border border-mh-border">
+                                <div class="text-[10px] text-slate-400">Village / Low Rank</div>
+                                <div id="hp-lr" class="font-bold text-mh-goldlight mt-1">--</div>
+                            </div>
+                            <div class="bg-mh-card p-2.5 rounded border border-mh-border">
+                                <div class="text-[10px] text-slate-400">Hub / High Rank</div>
+                                <div id="hp-hr" class="font-bold text-mh-goldlight mt-1">--</div>
+                            </div>
+                            <div class="bg-mh-card p-2.5 rounded border border-mh-border">
+                                <div class="text-[10px] text-slate-400">Master Rank</div>
+                                <div id="hp-mr" class="font-bold text-mh-goldlight mt-1">--</div>
+                            </div>
+                            <div class="bg-mh-card p-2.5 rounded border border-mh-border">
+                                <div class="text-[10px] text-slate-400">Anomaly Lvl 300 / Risen</div>
+                                <div id="hp-ar" class="font-bold text-mh-goldlight mt-1">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: HITZONE VALUES (HZVs) -->
+                <div id="content-hzv" class="hidden space-y-4">
+                    <div class="p-3 bg-mh-bg/80 border border-mh-border rounded-lg text-xs text-slate-300 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-mh-gold text-base"></i>
+                        <span>
+                            Hitzone values of <span class="text-mh-gold font-bold">45+</span> trigger <strong>Weakness Exploit (WEX)</strong> for physical attacks. Elemental HZVs of <span class="text-sky-400 font-bold">20+</span> indicate high elemental vulnerability.
+                        </span>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-lg border border-mh-border">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-mh-bg text-slate-300 border-b border-mh-border">
+                                    <th class="p-2.5 font-bold">Body Part</th>
+                                    <th class="p-2.5 font-bold text-center text-mh-sever">Sever</th>
+                                    <th class="p-2.5 font-bold text-center text-mh-blunt">Blunt</th>
+                                    <th class="p-2.5 font-bold text-center text-mh-ammo">Shot</th>
+                                    <th class="p-2.5 font-bold text-center text-mh-fire">Fire</th>
+                                    <th class="p-2.5 font-bold text-center text-mh-water">Water</th>
+                                    <th class="p-2.5 font-bold text-center text-mh-thunder">Thn</th>
+                                    <th class="p-2.5 font-bold text-center text-mh-ice">Ice</th>
+                                    <th class="p-2.5 font-bold text-center text-mh-dragon">Drg</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modal-hzv-table" class="divide-y divide-mh-border/50 font-mono">
+                                <!-- Dynamic HZV rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: PROGRESSION LOADS & SKILL COUNTERS -->
+                <div id="content-gear" class="hidden space-y-4">
+                    <p class="text-xs text-slate-400">Optimal armor, key skills, and weapon counter choices for hunting this monster during progression:</p>
+                    
+                    <div id="modal-progression-container" class="space-y-4">
+                        <!-- Dynamic progression cards -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-3 bg-mh-bg/95 border-t border-mh-border text-right text-xs text-slate-500 flex justify-between items-center">
+                <span>Database calibrated for MH Rise: Sunbreak Ver 16.0.0</span>
+                <button onclick="closeModal()" class="px-4 py-1.5 rounded bg-mh-card hover:bg-mh-cardhover border border-mh-border text-slate-300 font-semibold transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-auto border-t border-mh-border/60 bg-mh-bg py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="text-slate-400 font-semibold mb-1">MH Rise & Sunbreak Master Codex (Complete 77 Monster Database)</p>
+            <p class="text-[11px] text-slate-600">Monster Hunter is a registered trademark of CAPCOM Co., Ltd. Database crafted for hunter reference.</p>
+        </div>
+    </footer>
+
+    <script>
+        const MONSTERS_DB = [
+            // 1. Great Izuchi
+            { id: 1, name: "Great Izuchi", jpName: "オサイヅチ", species: "Bird Wyvern", firstRank: "Low Rank", primaryWeakness: "Thunder", secondaryWeakness: "Fire", habitat: "Shrine Ruins, Frost Islands",
+              hp: { lr: "2,400 HP", hr: "6,800 HP", mr: "14,500 HP", ar: "34,000 HP" },
+              weaknesses: { Fire: 2, Water: 1, Thunder: 3, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Focus down the two accompanying small Izuchi first to isolate the alpha.", "Target the tail tip for maximum physical damage.", "Wirefall after tail swipes to punish recovery."],
+              hzv: [
+                  { part: "Head", cut: 75, blunt: 75, ammo: 60, fire: 15, water: 10, thunder: 20, ice: 10, dragon: 0 },
+                  { part: "Tail Tip", cut: 80, blunt: 80, ammo: 65, fire: 20, water: 10, thunder: 25, ice: 10, dragon: 0 },
+                  { part: "Torso", cut: 45, blunt: 45, ammo: 30, fire: 10, water: 5, thunder: 15, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Izuchi Set", weapons: "Kula / Izuchi Scythe", keySkills: "Critical Eye, Evade Extender" }, hr: { armor: "Izuchi S Set", weapons: "Wind Thief Blade", keySkills: "Critical Eye 7, Master's Touch" }, mr: { armor: "Izuchi X Set", weapons: "G. Izuchi Master Tree", keySkills: "Critical Eye 7, Quick Sheathe" } }
+            },
+            // 2. Great Baggi
+            { id: 2, name: "Great Baggi", jpName: "ドスバギィ", species: "Bird Wyvern", firstRank: "Low Rank", primaryWeakness: "Fire", secondaryWeakness: "Water", habitat: "Frost Islands",
+              hp: { lr: "2,200 HP", hr: "6,200 HP", mr: "13,800 HP", ar: "32,000 HP" },
+              weaknesses: { Fire: 3, Water: 2, Thunder: 1, Ice: 0, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 0, Blast: 3 },
+              counterTips: ["Use Energy Drinks or Pep Jewels (Sleep Resistance Lv 3) to negate sleep spit.", "Attack its head crest to stagger it easily.", "Fire elemental weapons break its frost hide quickly."],
+              hzv: [
+                  { part: "Head / Crest", cut: 75, blunt: 80, ammo: 60, fire: 25, water: 15, thunder: 10, ice: 0, dragon: 0 },
+                  { part: "Body", cut: 50, blunt: 50, ammo: 35, fire: 15, water: 10, thunder: 5, ice: 0, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Baggi Set", weapons: "Bone Tree Weapons", keySkills: "Attack Boost, Sleep Res" }, hr: { armor: "Baggi S Set", weapons: "Baggi Stiletto", keySkills: "Attack Boost, Sleep Res 3" }, mr: { armor: "Baggi X Set", weapons: "Baggi Master Daggers", keySkills: "Attack Boost 7, Peak Performance" } }
+            },
+            // 3. Great Wroggi
+            { id: 3, name: "Great Wroggi", jpName: "ドスフロギィ", species: "Bird Wyvern", firstRank: "Low Rank", primaryWeakness: "Ice", secondaryWeakness: "Water", habitat: "Flooded Forest, Lava Caverns",
+              hp: { lr: "2,300 HP", hr: "6,500 HP", mr: "14,200 HP", ar: "33,000 HP" },
+              weaknesses: { Fire: 0, Water: 2, Thunder: 1, Ice: 3, Dragon: 0 },
+              statuses: { Poison: 0, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Equip Antidote Jewels (Poison Resistance Lv 3) to render its venom cloud harmless.", "Break the poison sac on its throat to restrict cloud attacks."],
+              hzv: [
+                  { part: "Head / Sac", cut: 75, blunt: 75, ammo: 60, fire: 0, water: 15, thunder: 10, ice: 25, dragon: 0 },
+                  { part: "Body", cut: 50, blunt: 50, ammo: 40, fire: 0, water: 10, thunder: 5, ice: 15, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Wroggi Set", weapons: "Iron / Wroggi Revolver", keySkills: "Rapid Morph, Poison Res" }, hr: { armor: "Wroggi S Set", weapons: "Wroggi Revolver S", keySkills: "Rapid Morph 3, Evade Extender" }, mr: { armor: "Wroggi X Set", weapons: "Master Wroggi Tree", keySkills: "Rapid Morph 3, Ammo Up" } }
+            },
+            // 4. Lagombi
+            { id: 4, name: "Lagombi", jpName: "ウルクスス", species: "Fanged Beast", firstRank: "Low Rank", primaryWeakness: "Fire", secondaryWeakness: "Thunder", habitat: "Frost Islands",
+              hp: { lr: "2,600 HP", hr: "7,200 HP", mr: "15,000 HP", ar: "35,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 2, Ice: 0, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 3 },
+              counterTips: ["Sonic Bombs disrupt Lagombi when it is sliding around, causing a long knockdown.", "Target its belly and head with Fire weapons for huge hitzone damage."],
+              hzv: [
+                  { part: "Head", cut: 70, blunt: 70, ammo: 50, fire: 25, water: 0, thunder: 15, ice: 0, dragon: 0 },
+                  { part: "Belly", cut: 65, blunt: 65, ammo: 45, fire: 20, water: 0, thunder: 10, ice: 0, dragon: 0 },
+                  { part: "Rear", cut: 50, blunt: 50, ammo: 30, fire: 15, water: 0, thunder: 10, ice: 0, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Lagombi Set", weapons: "Aknosom Weapons", keySkills: "Critical Draw, Ice Attack" }, hr: { armor: "Lagombi S Set", weapons: "Rathalos Weapons", keySkills: "Critical Draw, Fire Attack" }, mr: { armor: "Lagombi X Set", weapons: "Magmadron Weapons", keySkills: "Affinity Sliding, Critical Boost" } }
+            },
+            // 5. Arzuros
+            { id: 5, name: "Arzuros", jpName: "アオアシラ", species: "Fanged Beast", firstRank: "Low Rank", primaryWeakness: "Fire", secondaryWeakness: "Ice", habitat: "Shrine Ruins, Flooded Forest",
+              hp: { lr: "2,500 HP", hr: "7,000 HP", mr: "14,800 HP", ar: "34,500 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 1, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Attacking its rear hindlegs trips Arzuros consistently.", "Honey in your pouch will prompt Arzuros to steal and eat it, leaving it open to attacks."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 45, fire: 20, water: 0, thunder: 10, ice: 15, dragon: 0 },
+                  { part: "Rear", cut: 70, blunt: 70, ammo: 55, fire: 25, water: 0, thunder: 10, ice: 15, dragon: 0 },
+                  { part: "Upper Arm", cut: 40, blunt: 40, ammo: 25, fire: 15, water: 0, thunder: 5, ice: 10, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Arzuros Set", weapons: "Bone Club", keySkills: "Defense Boost, Fortify" }, hr: { armor: "Arzuros S Set", weapons: "Arzuros Axe S", keySkills: "Defense Boost 5, Counterstrike" }, mr: { armor: "Arzuros X Set", weapons: "Master Arzuros Glaive", keySkills: "Counterstrike 3, Defense Boost" } }
+            },
+            // 6. Tetranadon
+            { id: 6, name: "Tetranadon", jpName: "ヨツミワドウ", species: "Amphibian", firstRank: "Low Rank", primaryWeakness: "Thunder", secondaryWeakness: "Fire", habitat: "Shrine Ruins, Frost Islands, Lava Caverns",
+              hp: { lr: "3,100 HP", hr: "8,900 HP", mr: "18,200 HP", ar: "42,000 HP" },
+              weaknesses: { Fire: 2, Water: 0, Thunder: 3, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 2, Sleep: 1, Blast: 2 },
+              counterTips: ["When Tetranadon inflates after swallowing water, hit its bloated belly to cause a massive knockdown.", "Dodge its body slams sideways."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 50, fire: 15, water: 0, thunder: 20, ice: 10, dragon: 0 },
+                  { part: "Bloated Belly", cut: 75, blunt: 75, ammo: 60, fire: 20, water: 0, thunder: 25, ice: 10, dragon: 0 },
+                  { part: "Forelegs", cut: 45, blunt: 45, ammo: 30, fire: 10, water: 0, thunder: 15, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Tetranadon Set", weapons: "Thunder Tree", keySkills: "Normal/Rapid Up, Hunger Resistance" }, hr: { armor: "Tetranadon S Set", weapons: "Kadachi Strike", keySkills: "Evade Extender, Normal Up 3" }, mr: { armor: "Tetranadon X Set", weapons: "Zinogre Master Tree", keySkills: "Evade Extender 3, Ballistics" } }
+            },
+            // 7. Aknosom
+            { id: 7, name: "Aknosom", jpName: "アケノシルム", species: "Bird Wyvern", firstRank: "Low Rank", primaryWeakness: "Water", secondaryWeakness: "Thunder", habitat: "Shrine Ruins, Frost Islands",
+              hp: { lr: "3,000 HP", hr: "8,500 HP", mr: "17,500 HP", ar: "39,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 2, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Break its umbrella head crest to shorten fire spit ranges.", "Dodge sideways when it performs its umbrella crest hopping attack."],
+              hzv: [
+                  { part: "Crest", cut: 75, blunt: 75, ammo: 55, fire: 0, water: 25, thunder: 15, ice: 10, dragon: 0 },
+                  { part: "Head", cut: 60, blunt: 60, ammo: 45, fire: 0, water: 20, thunder: 10, ice: 5, dragon: 0 },
+                  { part: "Wings", cut: 50, blunt: 45, ammo: 30, fire: 0, water: 15, thunder: 10, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Aknosom Set", weapons: "Aknosom Blade", keySkills: "Quick Sheathe, Fire Attack" }, hr: { armor: "Aknosom S Set", weapons: "Aknosom Saber S", keySkills: "Quick Sheathe 3, Fire Attack 5" }, mr: { armor: "Aknosom X Set", weapons: "Master Aknosom Sword", keySkills: "Quick Sheathe 3, Fire Attack 5" } }
+            },
+            // 8. Kulu-Ya-Ku
+            { id: 8, name: "Kulu-Ya-Ku", jpName: "クルルヤック", species: "Bird Wyvern", firstRank: "Low Rank", primaryWeakness: "Water", secondaryWeakness: "Thunder", habitat: "Shrine Ruins, Sandy Plains, Lava Caverns",
+              hp: { lr: "2,600 HP", hr: "7,100 HP", mr: "15,200 HP", ar: "35,000 HP" },
+              weaknesses: { Fire: 1, Water: 3, Thunder: 2, Ice: 2, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Hit Kulu's rock with Slinger / Flash Bombs to force it to drop the boulder.", "Attacks bounce off the rock unless using Mind's Eye or blunt damage."],
+              hzv: [
+                  { part: "Head", cut: 70, blunt: 75, ammo: 55, fire: 10, water: 25, thunder: 15, ice: 15, dragon: 5 },
+                  { part: "Forelegs", cut: 50, blunt: 50, ammo: 35, fire: 5, water: 15, thunder: 10, ice: 10, dragon: 0 },
+                  { part: "Rock Held", cut: 15, blunt: 15, ammo: 10, fire: 0, water: 0, thunder: 0, ice: 0, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Kulu Set", weapons: "Kulu Beak", keySkills: "Critical Eye, Slugger" }, hr: { armor: "Kulu S Set", weapons: "Kulu Lance S", keySkills: "Critical Eye 7, Stun Resistance" }, mr: { armor: "Kulu X Set", weapons: "Master Kulu Spear", keySkills: "Critical Eye 7, Weakness Exploit" } }
+            },
+            // 9. Barroth
+            { id: 9, name: "Barroth", jpName: "ボルボロス", species: "Brute Wyvern", firstRank: "Low Rank", primaryWeakness: "Fire (Clean) / Water (Mud)", secondaryWeakness: "Ice", habitat: "Sandy Plains",
+              hp: { lr: "3,200 HP", hr: "9,100 HP", mr: "18,800 HP", ar: "43,000 HP" },
+              weaknesses: { Fire: 3, Water: 3, Thunder: 0, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 3, Stun: 1, Paralysis: 3, Sleep: 2, Blast: 3 },
+              counterTips: ["Use Water weapons to strip its mud armor, then switch to Fire weapons.", "Blunt weapons can sever and break its hardened crown crest."],
+              hzv: [
+                  { part: "Hands / Arms", cut: 65, blunt: 65, ammo: 50, fire: 20, water: 10, thunder: 0, ice: 15, dragon: 0 },
+                  { part: "Tail", cut: 60, blunt: 55, ammo: 40, fire: 20, water: 10, thunder: 0, ice: 15, dragon: 0 },
+                  { part: "Head Crown", cut: 25, blunt: 35, ammo: 15, fire: 10, water: 0, thunder: 0, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Barroth Set", weapons: "Carper Barroth", keySkills: "Guard, Attack Boost" }, hr: { armor: "Barroth S Set", weapons: "Barroth Loader S", keySkills: "Guard 3, Offensive Guard" }, mr: { armor: "Barroth X Set", weapons: "Barroth Master Crusher", keySkills: "Guard 5, Guard Up" } }
+            },
+            // 10. Khezu
+            { id: 10, name: "Khezu", jpName: "フルフル", species: "Flying Wyvern", firstRank: "Low Rank", primaryWeakness: "Fire", secondaryWeakness: "Water", habitat: "Frost Islands, Lava Caverns",
+              hp: { lr: "2,900 HP", hr: "8,200 HP", mr: "16,800 HP", ar: "38,000 HP" },
+              weaknesses: { Fire: 3, Water: 1, Thunder: 0, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 3, Stun: 0, Paralysis: 0, Sleep: 2, Blast: 2 },
+              counterTips: ["Equip Thunder Resistance Lv 3 or Nulberrys to avoid Thunderblight stun lock.", "When Khezu clings to the ceiling, use Wirebug attacks or ranged shots to bring it down."],
+              hzv: [
+                  { part: "Head", cut: 75, blunt: 80, ammo: 60, fire: 25, water: 10, thunder: 0, ice: 10, dragon: 0 },
+                  { part: "Neck", cut: 65, blunt: 65, ammo: 50, fire: 20, water: 5, thunder: 0, ice: 5, dragon: 0 },
+                  { part: "Body", cut: 45, blunt: 45, ammo: 30, fire: 15, water: 5, thunder: 0, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Khezu Set", weapons: "Khezu Shock Sword", keySkills: "Focus, Recovery Speed" }, hr: { armor: "Khezu S Set", weapons: "Khezu Flute S", keySkills: "Focus 3, Thunder Attack" }, mr: { armor: "Khezu X Set", weapons: "Master Khezu Shock", keySkills: "Focus 3, Wirebug Whisperer" } }
+            },
+            // 11. Bishaten
+            { id: 11, name: "Bishaten", jpName: "ビシュテンゴ", species: "Fanged Beast", firstRank: "Low Rank", primaryWeakness: "Ice", secondaryWeakness: "Fire", habitat: "Shrine Ruins, Flooded Forest",
+              hp: { lr: "3,300 HP", hr: "9,400 HP", mr: "19,200 HP", ar: "44,000 HP" },
+              weaknesses: { Fire: 2, Water: 0, Thunder: 1, Ice: 3, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 1, Sleep: 1, Blast: 3 },
+              counterTips: ["Hit Bishaten while it balances on its tail to drop the fruit it carries.", "Picking up its dropped fruits lets you use them as flash/poison/paralysis items."],
+              hzv: [
+                  { part: "Head", cut: 70, blunt: 70, ammo: 55, fire: 15, water: 0, thunder: 10, ice: 25, dragon: 0 },
+                  { part: "Tail", cut: 60, blunt: 60, ammo: 40, fire: 10, water: 0, thunder: 5, ice: 20, dragon: 0 },
+                  { part: "Wings", cut: 45, blunt: 45, ammo: 30, fire: 10, water: 0, thunder: 5, ice: 15, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Bishaten Set", weapons: "Bishaten Curved Bow", keySkills: "Item Prolonger, Wide-Range" }, hr: { armor: "Bishaten S Set", weapons: "Bishaten Glider S", keySkills: "Item Prolonger 3, Stun Res" }, mr: { armor: "Bishaten X Set", weapons: "Master Bishaten Bow", keySkills: "Wide-Range 5, Free Meal 3" } }
+            },
+            // 12. Pukei-Pukei
+            { id: 12, name: "Pukei-Pukei", jpName: "プケプケ", species: "Bird Wyvern", firstRank: "Low Rank", primaryWeakness: "Thunder", secondaryWeakness: "Ice", habitat: "Shrine Ruins, Flooded Forest",
+              hp: { lr: "3,100 HP", hr: "8,800 HP", mr: "18,000 HP", ar: "41,000 HP" },
+              weaknesses: { Fire: 1, Water: 0, Thunder: 3, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 0, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Severing its tail disables its rear poison spray entirely.", "When it eats nuts, its poison becomes far more potent; interrupt its feeding."],
+              hzv: [
+                  { part: "Head", cut: 70, blunt: 75, ammo: 55, fire: 10, water: 0, thunder: 25, ice: 15, dragon: 0 },
+                  { part: "Wings", cut: 55, blunt: 50, ammo: 40, fire: 5, water: 0, thunder: 20, ice: 10, dragon: 0 },
+                  { part: "Tail", cut: 60, blunt: 55, ammo: 35, fire: 5, water: 0, thunder: 15, ice: 10, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Pukei Set", weapons: "Pukei Arrow", keySkills: "Special Ammo Boost, Poison Attack" }, hr: { armor: "Pukei S Set", weapons: "Pukei Bow S", keySkills: "Spare Shot, Poison Attack 3" }, mr: { armor: "Pukei X Set", weapons: "Master Pukei Bow", keySkills: "Spare Shot 3, Constitution" } }
+            },
+            // 13. Jyuratodus
+            { id: 13, name: "Jyuratodus", jpName: "ジュラトドス", species: "Piscine Wyvern", firstRank: "Low Rank", primaryWeakness: "Thunder", secondaryWeakness: "Fire", habitat: "Flooded Forest",
+              hp: { lr: "3,400 HP", hr: "9,600 HP", mr: "19,500 HP", ar: "45,000 HP" },
+              weaknesses: { Fire: 2, Water: 0, Thunder: 3, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Break mud armor using Water weapons or Pods, then hit with Thunder.", "Focus damage on head and tail while avoiding mud spit traps."],
+              hzv: [
+                  { part: "Head", cut: 60, blunt: 65, ammo: 45, fire: 15, water: 0, thunder: 25, ice: 10, dragon: 0 },
+                  { part: "Tail", cut: 55, blunt: 55, ammo: 40, fire: 10, water: 0, thunder: 20, ice: 5, dragon: 0 },
+                  { part: "Body", cut: 40, blunt: 40, ammo: 25, fire: 10, water: 0, thunder: 15, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Jyura Set", weapons: "Jyura Wave", keySkills: "Water Attack, Power Prolonger" }, hr: { armor: "Jyura S Set", weapons: "Jyura Silt S", keySkills: "Power Prolonger 3, Evade Extender" }, mr: { armor: "Jyura X Set", weapons: "Master Jyura Fin", keySkills: "Power Prolonger 3, Handicraft" } }
+            },
+            // 14. Basarios
+            { id: 14, name: "Basarios", jpName: "バサルモス", species: "Flying Wyvern", firstRank: "Low Rank", primaryWeakness: "Dragon", secondaryWeakness: "Water", habitat: "Sandy Plains, Lava Caverns",
+              hp: { lr: "3,800 HP", hr: "10,800 HP", mr: "21,000 HP", ar: "49,000 HP" },
+              weaknesses: { Fire: 0, Water: 2, Thunder: 1, Ice: 1, Dragon: 3 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Attacks easily bounce; equip Mind's Eye or use Gunlance / Charge Blade phials.", "When Basarios heats up its chest, hit the glowing red chest for huge damage."],
+              hzv: [
+                  { part: "Heated Chest", cut: 70, blunt: 70, ammo: 55, fire: 0, water: 20, thunder: 10, ice: 10, dragon: 30 },
+                  { part: "Head (Hard)", cut: 20, blunt: 25, ammo: 15, fire: 0, water: 10, thunder: 5, ice: 5, dragon: 15 },
+                  { part: "Back", cut: 25, blunt: 30, ammo: 15, fire: 0, water: 10, thunder: 5, ice: 5, dragon: 15 }
+              ],
+              progression: { lr: { armor: "Basarios Set", weapons: "Basarios Rock", keySkills: "Guard, Defense Boost" }, hr: { armor: "Basarios S Set", weapons: "Basarios Rock S", keySkills: "Load Shells, Guard 3" }, mr: { armor: "Basarios X Set", weapons: "Master Basarios Rock", keySkills: "Artillery 3, Load Shells 2" } }
+            },
+            // 15. Somnacanth
+            { id: 15, name: "Somnacanth", jpName: "イソネミクニ", species: "Leviathan", firstRank: "Low Rank", primaryWeakness: "Thunder", secondaryWeakness: "Fire", habitat: "Frost Islands, Flooded Forest, Lava Caverns",
+              hp: { lr: "3,500 HP", hr: "9,800 HP", mr: "20,000 HP", ar: "46,000 HP" },
+              weaknesses: { Fire: 2, Water: 0, Thunder: 3, Ice: 0, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 1, Sleep: 0, Blast: 2 },
+              counterTips: ["Equip Sleep Resistance Lv 3 to ignore its sleep powder clouds completely.", "Break its head crest to stop its shell-cracking flash shockwaves."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 50, fire: 15, water: 0, thunder: 25, ice: 0, dragon: 0 },
+                  { part: "Neck Fin", cut: 60, blunt: 60, ammo: 45, fire: 15, water: 0, thunder: 20, ice: 0, dragon: 0 },
+                  { part: "Tail", cut: 50, blunt: 50, ammo: 35, fire: 10, water: 0, thunder: 15, ice: 0, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Somnacanth Set", weapons: "Somna Fin", keySkills: "Sleep Attack, Item Prolonger" }, hr: { armor: "Somna S Set", weapons: "Somna Scythe S", keySkills: "Sleep Attack 3, Protective Polish" }, mr: { armor: "Somna X Set", weapons: "Master Somna Blade", keySkills: "Protective Polish 3, Speed Sharpening" } }
+            },
+            // 16. Rathian
+            { id: 16, name: "Rathian", jpName: "リオレイア", species: "Flying Wyvern", firstRank: "Low Rank", primaryWeakness: "Dragon", secondaryWeakness: "Thunder", habitat: "Shrine Ruins, Sandy Plains, Flooded Forest, Lava Caverns",
+              hp: { lr: "3,600 HP", hr: "10,200 HP", mr: "21,500 HP", ar: "48,000 HP" },
+              weaknesses: { Fire: 0, Water: 1, Thunder: 2, Ice: 1, Dragon: 3 },
+              statuses: { Poison: 1, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Cut its tail to drastically shorten the hit zone of its backflip poisonous tail swipes.", "Flash Bombs drop Rathian instantly while hovering."],
+              hzv: [
+                  { part: "Head", cut: 70, blunt: 75, ammo: 60, fire: 0, water: 10, thunder: 15, ice: 10, dragon: 25 },
+                  { part: "Wings", cut: 45, blunt: 45, ammo: 25, fire: 0, water: 10, thunder: 20, ice: 10, dragon: 15 },
+                  { part: "Tail Tip", cut: 50, blunt: 45, ammo: 35, fire: 0, water: 5, thunder: 10, ice: 5, dragon: 15 }
+              ],
+              progression: { lr: { armor: "Rathian Set", weapons: "Princess Rapier", keySkills: "Health Boost, Poison Attack" }, hr: { armor: "Rathian S Set", weapons: "Princess Rapier S", keySkills: "Recovery Up, Poison Attack 3" }, mr: { armor: "Rathian X Set", weapons: "Master Princess Sword", keySkills: "Foray, Poison Attack 3" } }
+            },
+            // 17. Royal Ludroth
+            { id: 17, name: "Royal Ludroth", jpName: "ロアルドロス", species: "Leviathan", firstRank: "Low Rank", primaryWeakness: "Fire", secondaryWeakness: "Thunder", habitat: "Shrine Ruins, Flooded Forest, Lava Caverns",
+              hp: { lr: "3,000 HP", hr: "8,400 HP", mr: "17,200 HP", ar: "39,500 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 2, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Break its spongy mane to prevent it from storing water for rolling attacks.", "Fire weapons deal extreme damage to its spongy neck."],
+              hzv: [
+                  { part: "Sponge Mane", cut: 75, blunt: 75, ammo: 55, fire: 30, water: 0, thunder: 15, ice: 10, dragon: 0 },
+                  { part: "Head", cut: 65, blunt: 65, ammo: 50, fire: 20, water: 0, thunder: 10, ice: 5, dragon: 0 },
+                  { part: "Tail", cut: 55, blunt: 50, ammo: 40, fire: 15, water: 0, thunder: 10, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Ludroth Set", weapons: "Ludroth Pair", keySkills: "Marathon Runner, Water Attack" }, hr: { armor: "Ludroth S Set", weapons: "Ludroth Splash S", keySkills: "Marathon Runner 3, Water Attack 5" }, mr: { armor: "Ludroth X Set", weapons: "Master Ludroth Daggers", keySkills: "Stamina Surge 3, Marathon Runner" } }
+            },
+            // 18. Volvidon
+            { id: 18, name: "Volvidon", jpName: "ラングロトラ", species: "Fanged Beast", firstRank: "Low Rank", primaryWeakness: "Water", secondaryWeakness: "Ice", habitat: "Sandy Plains, Lava Caverns",
+              hp: { lr: "2,700 HP", hr: "7,600 HP", mr: "15,800 HP", ar: "36,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 1, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Deodorant removes its stench gas effect so you can consume health potions again.", "Interrupt its rolling bowling-ball charge with heavy attacks or Wirebug skills."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 50, fire: 0, water: 25, thunder: 10, ice: 15, dragon: 0 },
+                  { part: "Back Shell", cut: 55, blunt: 55, ammo: 35, fire: 0, water: 20, thunder: 5, ice: 10, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Volvidon Set", weapons: "Volvidon Axe", keySkills: "Evade Extender, Paralysis Attack" }, hr: { armor: "Volvidon S Set", weapons: "Volvi Axe S", keySkills: "Rapid Morph, Evade Extender 2" }, mr: { armor: "Volvidon X Set", weapons: "Master Volvi Switch Axe", keySkills: "Paralysis Attack 3, Rapid Morph" } }
+            },
+            // 19. Tobi-Kadachi
+            { id: 19, name: "Tobi-Kadachi", jpName: "トビカガチ", species: "Fanged Wyvern", firstRank: "Low Rank", primaryWeakness: "Water", secondaryWeakness: "Fire", habitat: "Shrine Ruins, Flooded Forest",
+              hp: { lr: "3,200 HP", hr: "9,000 HP", mr: "18,500 HP", ar: "42,500 HP" },
+              weaknesses: { Fire: 2, Water: 3, Thunder: 0, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 1, Sleep: 2, Blast: 2 },
+              counterTips: ["When Tobi charges static electricity in its fur, hit its tail to trigger a sudden discharge flinch.", "Dodge its backflip tail slam laterally."],
+              hzv: [
+                  { part: "Tail (Charged)", cut: 75, blunt: 75, ammo: 60, fire: 15, water: 25, thunder: 0, ice: 10, dragon: 0 },
+                  { part: "Head", cut: 65, blunt: 65, ammo: 50, fire: 10, water: 20, thunder: 0, ice: 5, dragon: 0 },
+                  { part: "Back", cut: 50, blunt: 50, ammo: 35, fire: 10, water: 15, thunder: 0, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Kadachi Set", weapons: "Kadachi Strike", keySkills: "Thunder Attack, Constitution" }, hr: { armor: "Kadachi S Set", weapons: "Kadachi Strikebow S", keySkills: "Constitution 4, Critical Eye" }, mr: { armor: "Kadachi X Set", weapons: "Master Kadachi Bow", keySkills: "Constitution 5, Stamina Surge 3" } }
+            },
+            // 20. Anjanath
+            { id: 20, name: "Anjanath", jpName: "アンジャナフ", species: "Brute Wyvern", firstRank: "Low Rank", primaryWeakness: "Water", secondaryWeakness: "Ice", habitat: "Shrine Ruins, Sandy Plains, Flooded Forest, Lava Caverns",
+              hp: { lr: "4,100 HP", hr: "12,200 HP", mr: "23,000 HP", ar: "52,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 1, Ice: 2, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 1 },
+              counterTips: ["Hit its throat when it glows red with fire to cause an elemental overload trip.", "Focus on hindlegs for frequent stumbles."],
+              hzv: [
+                  { part: "Head", cut: 70, blunt: 75, ammo: 55, fire: 0, water: 25, thunder: 10, ice: 15, dragon: 5 },
+                  { part: "Hails / Throat", cut: 75, blunt: 75, ammo: 60, fire: 0, water: 30, thunder: 10, ice: 20, dragon: 5 },
+                  { part: "Hindlegs", cut: 45, blunt: 45, ammo: 30, fire: 0, water: 15, thunder: 5, ice: 10, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Anjanath Set", weapons: "Flammenzahn", keySkills: "Attack Boost, Slugger" }, hr: { armor: "Anjanath S Coil & Legs", weapons: "Flammenzahn S", keySkills: "Attack Boost 7, Focus" }, mr: { armor: "Anjanath X Set", weapons: "Master Anjanath Great Sword", keySkills: "Attack Boost 7, Agitator 5" } }
+            },
+            // 21. Nargacuga
+            { id: 21, name: "Nargacuga", jpName: "ナルガクルガ", species: "Flying Wyvern", firstRank: "High Rank", primaryWeakness: "Thunder", secondaryWeakness: "Fire", habitat: "Shrine Ruins, Flooded Forest",
+              hp: { lr: "N/A", hr: "12,500 HP", mr: "22,500 HP", ar: "53,000 HP" },
+              weaknesses: { Fire: 2, Water: 0, Thunder: 3, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Sonic Bombs trip Nargacuga while in its pre-pounce stance (causes rage afterwards).", "Cut its tail to decrease tail slam range.", "Evade Extender makes dodging its double tail slam easy."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 50, fire: 15, water: 0, thunder: 25, ice: 10, dragon: 0 },
+                  { part: "Tail Tip (Enraged)", cut: 60, blunt: 55, ammo: 45, fire: 10, water: 0, thunder: 20, ice: 5, dragon: 0 },
+                  { part: "Cutwing", cut: 45, blunt: 45, ammo: 25, fire: 10, water: 0, thunder: 15, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Nargacuga S Mail & Legs", weapons: "Night Owl / Hidden Blade", keySkills: "Evade Window, Critical Eye 7" }, mr: { armor: "Nargacuga X Set", weapons: "Deepest Night Master", keySkills: "Evade Window 5, Master's Touch 3" } }
+            },
+            // 22. Mizutsune
+            { id: 22, name: "Mizutsune", jpName: "タマミツネ", species: "Leviathan", firstRank: "High Rank", primaryWeakness: "Thunder", secondaryWeakness: "Dragon", habitat: "Shrine Ruins, Flooded Forest, Frost Islands",
+              hp: { lr: "N/A", hr: "13,000 HP", mr: "23,200 HP", ar: "55,000 HP" },
+              weaknesses: { Fire: 0, Water: 0, Thunder: 3, Ice: 1, Dragon: 2 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Green and Red bubbles give attack/healing buffs; touch them on purpose!", "Cleanser items remove slippery Bubbleblight.", "Break its claw fins to prevent fast sliding turns."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 50, fire: 0, water: 0, thunder: 25, ice: 5, dragon: 15 },
+                  { part: "Dorsal Fin / Tail", cut: 60, blunt: 60, ammo: 45, fire: 0, water: 0, thunder: 20, ice: 5, dragon: 10 },
+                  { part: "Claws", cut: 45, blunt: 45, ammo: 25, fire: 0, water: 0, thunder: 15, ice: 0, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Mizutsune S Set", weapons: "Dawn Ray Sedition", keySkills: "Resuscitate, Bubbledance 3" }, mr: { armor: "Mizutsune X Set", weapons: "Master Mizutsune Blade", keySkills: "Bubbledance 3, Resuscitate 3" } }
+            },
+            // 23. Goss Harag
+            { id: 23, name: "Goss Harag", jpName: "ゴシャハギ", species: "Fanged Beast", firstRank: "Low Rank", primaryWeakness: "Fire", secondaryWeakness: "Thunder", habitat: "Frost Islands",
+              hp: { lr: "5,100 HP", hr: "15,200 HP", mr: "25,500 HP", ar: "60,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 2, Ice: 0, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 1, Blast: 3 },
+              counterTips: ["Shatter its ice blade arm constructs for massive stagger knockdowns.", "When its face turns glowing red, fire elemental attacks do ultimate damage."],
+              hzv: [
+                  { part: "Ice Blades", cut: 70, blunt: 70, ammo: 55, fire: 30, water: 0, thunder: 20, ice: 0, dragon: 0 },
+                  { part: "Head (Red)", cut: 60, blunt: 60, ammo: 45, fire: 25, water: 0, thunder: 15, ice: 0, dragon: 0 },
+                  { part: "Forelegs", cut: 45, blunt: 45, ammo: 30, fire: 15, water: 0, thunder: 10, ice: 0, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Goss Set", weapons: "Goss Blade", keySkills: "Critical Draw, Agitator" }, hr: { armor: "Goss S Set", weapons: "Abominable Great Sword", keySkills: "Punishing Draw, Agitator 5" }, mr: { armor: "Goss X Set", weapons: "Master Goss Great Sword", keySkills: "Agitator 5, Critical Boost 3" } }
+            },
+            // 24. Rathalos
+            { id: 24, name: "Rathalos", jpName: "リオレウス", species: "Flying Wyvern", firstRank: "Low Rank", primaryWeakness: "Dragon", secondaryWeakness: "Thunder", habitat: "Shrine Ruins, Lava Caverns",
+              hp: { lr: "4,200 HP", hr: "12,800 HP", mr: "22,000 HP", ar: "50,000 HP" },
+              weaknesses: { Fire: 0, Water: 1, Thunder: 2, Ice: 1, Dragon: 3 },
+              statuses: { Poison: 1, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Flash Bombs knock hovering Rathalos straight to the floor.", "Sever the tail to shorten aerial venom swipes.", "Fire Resistance Lv 3 negates burning ticks."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 55, fire: 0, water: 10, thunder: 15, ice: 10, dragon: 25 },
+                  { part: "Wings", cut: 45, blunt: 45, ammo: 25, fire: 0, water: 10, thunder: 20, ice: 10, dragon: 20 },
+                  { part: "Tail", cut: 45, blunt: 40, ammo: 30, fire: 0, water: 5, thunder: 10, ice: 5, dragon: 15 }
+              ],
+              progression: { lr: { armor: "Rathalos Set", weapons: "Rathalos Flier", keySkills: "Attack Boost, Critical Eye" }, hr: { armor: "Rathalos S Set", weapons: "Red Wing S", keySkills: "Attack Boost 7, Weakness Exploit" }, mr: { armor: "Rathalos X Set", weapons: "Master Rathalos Blade", keySkills: "Attack Boost 7, Critical Boost 3" } }
+            },
+            // 25. Almudron
+            { id: 25, name: "Almudron", jpName: "オロミドロ", species: "Leviathan", firstRank: "High Rank", primaryWeakness: "Fire", secondaryWeakness: "Ice", habitat: "Shrine Ruins, Flooded Forest, Lava Caverns",
+              hp: { lr: "N/A", hr: "14,200 HP", mr: "24,800 HP", ar: "57,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 1, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 2, Sleep: 1, Blast: 2 },
+              counterTips: ["Break the golden mud ball on its tail for huge damage and item drops.", "Wirejump over its golden mud maze walls."],
+              hzv: [
+                  { part: "Tail Mud Ball", cut: 75, blunt: 75, ammo: 60, fire: 30, water: 0, thunder: 10, ice: 20, dragon: 0 },
+                  { part: "Head", cut: 60, blunt: 60, ammo: 45, fire: 20, water: 0, thunder: 5, ice: 15, dragon: 0 },
+                  { part: "Claws", cut: 45, blunt: 45, ammo: 25, fire: 15, water: 0, thunder: 5, ice: 10, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Almudron S Helm & Chest", weapons: "Doom Bringer Axe", keySkills: "Rapid Morph 3, Razor Sharp" }, mr: { armor: "Almudron X Set", weapons: "Master Almudron Switch Axe", keySkills: "Rapid Morph 3, Element Exploit" } }
+            },
+            // 26. Zinogre
+            { id: 26, name: "Zinogre", jpName: "ジンオウガ", species: "Fanged Wyvern", firstRank: "High Rank", primaryWeakness: "Ice", secondaryWeakness: "Water", habitat: "Shrine Ruins, Flooded Forest",
+              hp: { lr: "N/A", hr: "14,000 HP", mr: "23,800 HP", ar: "56,000 HP" },
+              weaknesses: { Fire: 1, Water: 2, Thunder: 0, Ice: 3, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 0, Sleep: 1, Blast: 2 },
+              counterTips: ["Capture Net on its back during knockdowns harvests Fulgurbugs and drains its charge.", "When fully charged, stay vigilant for triple claw slams."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 50, fire: 10, water: 15, thunder: 0, ice: 25, dragon: 0 },
+                  { part: "Back (Supercharged)", cut: 55, blunt: 60, ammo: 40, fire: 5, water: 10, thunder: 0, ice: 20, dragon: 0 },
+                  { part: "Forelegs", cut: 45, blunt: 45, ammo: 25, fire: 5, water: 10, thunder: 0, ice: 15, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Zinogre S Helm & Chest", weapons: "Usurper's Fulgur", keySkills: "Latent Power 5, Weakness Exploit" }, mr: { armor: "Zinogre X Set", weapons: "Master Zinogre Blade", keySkills: "Latent Power 5, Critical Boost" } }
+            },
+            // 27. Tigrex
+            { id: 27, name: "Tigrex", jpName: "ティガレックス", species: "Flying Wyvern", firstRank: "High Rank", primaryWeakness: "Thunder", secondaryWeakness: "Dragon", habitat: "Sandy Plains, Frost Islands, Lava Caverns",
+              hp: { lr: "N/A", hr: "13,500 HP", mr: "23,000 HP", ar: "52,000 HP" },
+              weaknesses: { Fire: 0, Water: 1, Thunder: 3, Ice: 1, Dragon: 2 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Break forelimbs to cause Tigrex to stumble when charging.", "Use Lance/CB counter skills or Great Sword tackle to intercept charges.", "Earplugs Lv 3 negates roars."],
+              hzv: [
+                  { part: "Head", cut: 70, blunt: 75, ammo: 55, fire: 0, water: 5, thunder: 25, ice: 5, dragon: 15 },
+                  { part: "Forearms", cut: 55, blunt: 50, ammo: 30, fire: 0, water: 5, thunder: 20, ice: 5, dragon: 10 },
+                  { part: "Tail", cut: 45, blunt: 40, ammo: 25, fire: 0, water: 5, thunder: 15, ice: 5, dragon: 10 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Tigrex S Chest & Arms", weapons: "Rex Slash", keySkills: "Speed Eating 3, Mind's Eye" }, mr: { armor: "Tigrex X Set", weapons: "Master Tigrex Blade", keySkills: "Speed Eating 3, Attack Boost" } }
+            },
+            // 28. Diablos
+            { id: 28, name: "Diablos", jpName: "ディアブロス", species: "Flying Wyvern", firstRank: "High Rank", primaryWeakness: "Ice", secondaryWeakness: "Water", habitat: "Sandy Plains",
+              hp: { lr: "N/A", hr: "14,800 HP", mr: "24,500 HP", ar: "58,000 HP" },
+              weaknesses: { Fire: 0, Water: 2, Thunder: 1, Ice: 3, Dragon: 1 },
+              statuses: { Poison: 3, Stun: 1, Paralysis: 3, Sleep: 2, Blast: 2 },
+              counterTips: ["Screamer Pods force Diablos out of the ground while burrowing (when not enraged).", "Bait Diablos into charging ant mounds to get its horns stuck."],
+              hzv: [
+                  { part: "Belly / Wings", cut: 65, blunt: 65, ammo: 55, fire: 0, water: 15, thunder: 10, ice: 25, dragon: 5 },
+                  { part: "Tail Tip", cut: 55, blunt: 55, ammo: 40, fire: 0, water: 10, thunder: 5, ice: 20, dragon: 5 },
+                  { part: "Horns (Hard)", cut: 20, blunt: 30, ammo: 15, fire: 0, water: 5, thunder: 0, ice: 15, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Diablos S Set", weapons: "Ty tyranny / Diablos Axe", keySkills: "Guard 5, Offensive Guard" }, mr: { armor: "Diablos X Set", weapons: "Master Diablos Tyrant", keySkills: "Guard 5, Offensive Guard 3" } }
+            },
+            // 29. Rakna-Kadaki
+            { id: 29, name: "Rakna-Kadaki", jpName: "ヤツカダキ", species: "Temnoceran", firstRank: "High Rank", primaryWeakness: "Ice", secondaryWeakness: "Water", habitat: "Lava Caverns, Sandy Plains",
+              hp: { lr: "N/A", hr: "15,500 HP", mr: "25,000 HP", ar: "59,000 HP" },
+              weaknesses: { Fire: 0, Water: 2, Thunder: 1, Ice: 3, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 1 },
+              counterTips: ["Destroy the silk web coatings around its legs to cause massive knockdowns.", "When it spawns Rachnoids, focus attacks on its abdomen."],
+              hzv: [
+                  { part: "Head", cut: 60, blunt: 60, ammo: 45, fire: 0, water: 15, thunder: 5, ice: 25, dragon: 0 },
+                  { part: "Webbed Legs", cut: 65, blunt: 65, ammo: 50, fire: 0, water: 20, thunder: 10, ice: 30, dragon: 0 },
+                  { part: "Glow Abdomen", cut: 50, blunt: 50, ammo: 35, fire: 0, water: 10, thunder: 5, ice: 20, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Rakna S Arms & Legs", weapons: "Kadaki Bow", keySkills: "Spread Up 3, Reload Speed" }, mr: { armor: "Rakna X Set", weapons: "Master Kadaki Bow", keySkills: "Spread Up 3, Constitution 5" } }
+            },
+            // 30. Magnamalo
+            { id: 30, name: "Magnamalo", jpName: "マガイマガド", species: "Fanged Wyvern", firstRank: "Low Rank", primaryWeakness: "Water", secondaryWeakness: "Thunder", habitat: "Shrine Ruins, Frost Islands, Lava Caverns",
+              hp: { lr: "4,800 HP", hr: "14,500 HP", mr: "24,000 HP", ar: "58,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 2, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 2, Paralysis: 1, Sleep: 1, Blast: 1 },
+              counterTips: ["Hit Hellfire-coated body parts to cause explosions that knock Magnamalo down.", "Use Wiredash when afflicted with Hellfire to leave a landmine trap behind."],
+              hzv: [
+                  { part: "Head (Hellfire)", cut: 70, blunt: 70, ammo: 55, fire: 0, water: 25, thunder: 20, ice: 10, dragon: 0 },
+                  { part: "Head (Normal)", cut: 60, blunt: 60, ammo: 45, fire: 0, water: 20, thunder: 15, ice: 5, dragon: 0 },
+                  { part: "Armblades", cut: 45, blunt: 45, ammo: 25, fire: 0, water: 15, thunder: 10, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "Sinister Set", weapons: "Sinister Shadow Blade", keySkills: "Handicraft, Hellfire Cloak" }, hr: { armor: "Sinister S Set", weapons: "Sinister Blade S", keySkills: "Hellfire Cloak 4, Resentment" }, mr: { armor: "Sinister X Set", weapons: "Master Sinister Blade", keySkills: "Hellfire Cloak 4, Coalescence" } }
+            },
+            // 31. Rajang
+            { id: 31, name: "Rajang", jpName: "ラージャン", species: "Fanged Beast", firstRank: "High Rank", primaryWeakness: "Ice", secondaryWeakness: "Water", habitat: "Shrine Ruins, Sandy Plains, Lava Caverns",
+              hp: { lr: "N/A", hr: "13,800 HP", mr: "22,800 HP", ar: "56,000 HP" },
+              weaknesses: { Fire: 0, Water: 1, Thunder: 0, Ice: 3, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 0, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["When Rajang enters Rampage mode (red arms), hit its tail to knock it out of rage.", "Pitfall Traps only work when enraged; Shock Traps only work when normal!"],
+              hzv: [
+                  { part: "Head", cut: 60, blunt: 60, ammo: 45, fire: 0, water: 10, thunder: 0, ice: 25, dragon: 0 },
+                  { part: "Tail", cut: 55, blunt: 55, ammo: 40, fire: 0, water: 10, thunder: 0, ice: 20, dragon: 0 },
+                  { part: "Red Arms", cut: 20, blunt: 20, ammo: 10, fire: 0, water: 5, thunder: 0, ice: 10, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Golden Hakama (Legs)", weapons: "Demon Rod", keySkills: "Critical Boost 3, Latent Power" }, mr: { armor: "Grand God Set", weapons: "Master Demon Rod", keySkills: "Critical Boost 3, Might 3" } }
+            },
+            // 32. Bazelgeuse
+            { id: 32, name: "Bazelgeuse", jpName: "バゼルギウス", species: "Flying Wyvern", firstRank: "High Rank", primaryWeakness: "Thunder", secondaryWeakness: "Ice", habitat: "All Maps (Invasions)",
+              hp: { lr: "N/A", hr: "15,800 HP", mr: "26,000 HP", ar: "62,000 HP" },
+              weaknesses: { Fire: 0, Water: 1, Thunder: 3, Ice: 2, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 2, Sleep: 2, Blast: 1 },
+              counterTips: ["When scales turn red and glowing, keep distance to avoid instant detonate drops.", "Thunder Ranged Ammo destroys its head/tail scales safely."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 55, fire: 0, water: 10, thunder: 25, ice: 15, dragon: 10 },
+                  { part: "Tail Tip", cut: 60, blunt: 60, ammo: 45, fire: 0, water: 10, thunder: 20, ice: 15, dragon: 5 },
+                  { part: "Wings", cut: 55, blunt: 50, ammo: 40, fire: 0, water: 10, thunder: 20, ice: 10, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Bazelgeuse S Set", weapons: "Bazel Buster", keySkills: "Artillery 3, Load Shells 2, Guard" }, mr: { armor: "Bazelgeuse X Set", weapons: "Master Bazel Gunlance", keySkills: "Artillery 3, Guard Up 3" } }
+            },
+            // 33. Wind Serpent Ibushi
+            { id: 33, name: "Wind Serpent Ibushi", jpName: "風神龍 イブシマキヒコ", species: "Elder Dragon", firstRank: "High Rank", primaryWeakness: "Dragon", secondaryWeakness: "Fire", habitat: "Coral Palace / Red Stronghold",
+              hp: { lr: "N/A", hr: "18,500 HP", mr: "31,000 HP", ar: "N/A" },
+              weaknesses: { Fire: 2, Water: 0, Thunder: 0, Ice: 1, Dragon: 3 },
+              statuses: { Poison: 1, Stun: 0, Paralysis: 0, Sleep: 0, Blast: 2 },
+              counterTips: ["Target glowing wind sacs on its tail, chest, and back to trigger airborne flinches.", "Use ballistae platforms floating on air currents."],
+              hzv: [
+                  { part: "Wind Sac (Tail)", cut: 70, blunt: 70, ammo: 55, fire: 15, water: 0, thunder: 0, ice: 10, dragon: 25 },
+                  { part: "Head", cut: 60, blunt: 60, ammo: 45, fire: 10, water: 0, thunder: 0, ice: 5, dragon: 20 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Ibushi Set", weapons: "Storm Tree", keySkills: "Wind Alignment, Evade Extender" }, mr: { armor: "Pure Ibushi Set", weapons: "Master Storm Tree", keySkills: "Stormsoul 5, Wind Alignment" } }
+            },
+            // 34. Thunder Serpent Narwa
+            { id: 34, name: "Thunder Serpent Narwa", jpName: "雷神龍 ナルハタタヒメ", species: "Elder Dragon", firstRank: "High Rank", primaryWeakness: "Dragon", secondaryWeakness: "Ice", habitat: "Coral Palace",
+              hp: { lr: "N/A", hr: "21,000 HP", mr: "34,000 HP", ar: "N/A" },
+              weaknesses: { Fire: 1, Water: 0, Thunder: 0, Ice: 2, Dragon: 3 },
+              statuses: { Poison: 1, Stun: 0, Paralysis: 0, Sleep: 0, Blast: 2 },
+              counterTips: ["Hit the glowing thunder sac on its belly when exposed.", "Use rising platforms to reach siege artillery during ultimate lightning charges."],
+              hzv: [
+                  { part: "Thunder Sac (Belly)", cut: 75, blunt: 75, ammo: 60, fire: 10, water: 0, thunder: 0, ice: 15, dragon: 25 },
+                  { part: "Head", cut: 60, blunt: 60, ammo: 45, fire: 5, water: 0, thunder: 0, ice: 10, dragon: 20 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Narwa Set", weapons: "Thunderous Tree", keySkills: "Thunder Alignment, Partbreaker" }, mr: { armor: "Pure Narwa Set", weapons: "Master Thunder Tree", keySkills: "Stormsoul 5, Rapid Morph" } }
+            },
+            // 35. Narwa the Allmother
+            { id: 35, name: "Narwa the Allmother", jpName: "百竜ノ淵源 ナルハタタヒメ", species: "Elder Dragon", firstRank: "High Rank", primaryWeakness: "Dragon", secondaryWeakness: "Ice", habitat: "Coral Palace Depths",
+              hp: { lr: "N/A", hr: "24,500 HP", mr: "38,000 HP", ar: "N/A" },
+              weaknesses: { Fire: 1, Water: 0, Thunder: 0, Ice: 2, Dragon: 3 },
+              statuses: { Poison: 1, Stun: 0, Paralysis: 0, Sleep: 0, Blast: 2 },
+              counterTips: ["Farcast back to camp to dodge her spinning dragonator ultimate vacuum vortex.", "Focus physical attacks on the belly sac whenever open."],
+              hzv: [
+                  { part: "Allmother Belly Sac", cut: 80, blunt: 80, ammo: 65, fire: 10, water: 0, thunder: 0, ice: 20, dragon: 30 },
+                  { part: "Head", cut: 65, blunt: 65, ammo: 50, fire: 5, water: 0, thunder: 0, ice: 10, dragon: 20 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Narwa/Ibushi Mix", weapons: "Allmother Weapons", keySkills: "Stormsoul 5, Constitution" }, mr: { armor: "Origin Narwa Set", weapons: "Master Allmother Tree", keySkills: "Stormsoul 5, Guard Up" } }
+            },
+            // 36. Chameleos
+            { id: 36, name: "Chameleos", jpName: "オオナズチ", species: "Elder Dragon", firstRank: "High Rank", primaryWeakness: "Fire", secondaryWeakness: "Thunder", habitat: "Shrine Ruins, Flooded Forest",
+              hp: { lr: "N/A", hr: "16,000 HP", mr: "26,500 HP", ar: "62,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 2, Ice: 0, Dragon: 1 },
+              statuses: { Poison: 0, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 3 },
+              counterTips: ["Break its horn to reveal its outline while cloaked in mist.", "Poison Resistance Lv 3 prevents stat-stealing venom clouds."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 45, fire: 25, water: 0, thunder: 15, ice: 0, dragon: 10 },
+                  { part: "Tail Tip", cut: 60, blunt: 55, ammo: 40, fire: 20, water: 0, thunder: 10, ice: 0, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Mizuha Set", weapons: "Chameleos Caster", keySkills: "Chameleos Blessing 4, Evade Window" }, mr: { armor: "Mizuha Imperiale", weapons: "Master Chameleos Wand", keySkills: "Chameleos Blessing 4, Foray" } }
+            },
+            // 37. Kushala Daora
+            { id: 37, name: "Kushala Daora", jpName: "クシャルダオラ", species: "Elder Dragon", firstRank: "High Rank", primaryWeakness: "Thunder", secondaryWeakness: "Fire", habitat: "Frost Islands, Sandy Plains",
+              hp: { lr: "N/A", hr: "16,500 HP", mr: "27,000 HP", ar: "64,000 HP" },
+              weaknesses: { Fire: 2, Water: 0, Thunder: 3, Ice: 0, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 3 },
+              counterTips: ["Kushala Blessing armor skill negates wind pressure knockbacks completely.", "Head flinches suppress its black wind aura."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 45, fire: 15, water: 0, thunder: 25, ice: 0, dragon: 10 },
+                  { part: "Tail Tip", cut: 55, blunt: 50, ammo: 35, fire: 10, water: 0, thunder: 15, ice: 0, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Kushala Set", weapons: "Daora's Decora", keySkills: "Kushala Blessing 3, Handicraft" }, mr: { armor: "Kushala X Set", weapons: "Master Daora Blade", keySkills: "Kushala Blessing 3, Recovery Up" } }
+            },
+            // 38. Teostra
+            { id: 38, name: "Teostra", jpName: "テオ・テスカトル", species: "Elder Dragon", firstRank: "High Rank", primaryWeakness: "Water", secondaryWeakness: "Ice", habitat: "Sandy Plains, Lava Caverns",
+              hp: { lr: "N/A", hr: "17,000 HP", mr: "27,500 HP", ar: "65,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 0, Ice: 2, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 0 },
+              counterTips: ["Water/Ice damage onto head drops its flame aura.", "Dodge sideways when Teostra floats for Supernova blast explosion."],
+              hzv: [
+                  { part: "Head", cut: 60, blunt: 65, ammo: 45, fire: 0, water: 25, thunder: 0, ice: 20, dragon: 10 },
+                  { part: "Tail", cut: 55, blunt: 50, ammo: 35, fire: 0, water: 15, thunder: 0, ice: 10, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Kaiser Crown & Armor", weapons: "Teostra Blade", keySkills: "Critical Boost 3, Teostra Blessing" }, mr: { armor: "Kaiser X Set", weapons: "Master Teostra Blade", keySkills: "Critical Boost 3, Teostra Blessing 4" } }
+            },
+            // 39. Crimson Glow Valstrax
+            { id: 39, name: "Crimson Glow Valstrax", jpName: "赫耀のバルファルク", species: "Elder Dragon", firstRank: "High Rank", primaryWeakness: "Fire / Water / Thunder / Ice", secondaryWeakness: "Dragon (Uncharged)", habitat: "All Maps",
+              hp: { lr: "N/A", hr: "18,200 HP", mr: "32,500 HP", ar: "78,000 HP" },
+              weaknesses: { Fire: 2, Water: 2, Thunder: 2, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Hit chest when inhaling energy to trigger an internal explosion knockdown.", "Superdive leap avoids its supersonic 'Ambush' dive."],
+              hzv: [
+                  { part: "Head", cut: 55, blunt: 55, ammo: 45, fire: 15, water: 15, thunder: 15, ice: 15, dragon: 0 },
+                  { part: "Chest (Inhaling)", cut: 65, blunt: 65, ammo: 55, fire: 20, water: 20, thunder: 20, ice: 20, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Valstrax Set", weapons: "Redwing Valstrax", keySkills: "Dragonheart 5, Resentment" }, mr: { armor: "Valstrax Epoch", weapons: "Master Valstrax Weapons", keySkills: "Dragonheart 5, Coalescence" } }
+            },
+            // 40. Apex Arzuros
+            { id: 40, name: "Apex Arzuros", jpName: "ヌシ・アオアシラ", species: "Fanged Beast", firstRank: "Apex / Risen", primaryWeakness: "Fire", secondaryWeakness: "Ice", habitat: "Red Stronghold, Rampage",
+              hp: { lr: "N/A", hr: "16,200 HP", mr: "28,000 HP", ar: "66,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 1, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Its massive claw swipes generate shockwaves; use Evade Extender.", "Deal continuous damage during its Apex frenzy charge to pacify it."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 45, fire: 20, water: 0, thunder: 10, ice: 15, dragon: 0 },
+                  { part: "Rear", cut: 70, blunt: 70, ammo: 55, fire: 25, water: 0, thunder: 10, ice: 15, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "Apex Rampage Weapons", keySkills: "Rampage Skills" }, hr: { armor: "Mixed S Build", weapons: "Rampage S Weapons", keySkills: "Weakness Exploit 3, Attack 7" }, mr: { armor: "MR Mixed Meta", weapons: "Rampage Master Tree", keySkills: "Critical Boost 3, Agitator 5" } }
+            },
+            // 41. Apex Rathian
+            { id: 41, name: "Apex Rathian", jpName: "ヌシ・リオレイア", species: "Flying Wyvern", firstRank: "Apex / Risen", primaryWeakness: "Dragon", secondaryWeakness: "Thunder", habitat: "Red Stronghold, Flooded Forest",
+              hp: { lr: "N/A", hr: "17,500 HP", mr: "29,500 HP", ar: "69,000 HP" },
+              weaknesses: { Fire: 0, Water: 1, Thunder: 2, Ice: 1, Dragon: 3 },
+              statuses: { Poison: 0, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 1 },
+              counterTips: ["Its venom tail spikes inflict Noxious Poison; bring Herbal Powder.", "Partbreaker helps sever tail and break wings quickly."],
+              hzv: [
+                  { part: "Head", cut: 70, blunt: 75, ammo: 55, fire: 0, water: 10, thunder: 15, ice: 10, dragon: 25 },
+                  { part: "Wings", cut: 45, blunt: 45, ammo: 25, fire: 0, water: 10, thunder: 20, ice: 10, dragon: 15 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Anjanath/Rathalos Mix", weapons: "Dragon Weapons", keySkills: "Weakness Exploit, Partbreaker" }, mr: { armor: "MR Partbreaker Build", weapons: "Valstrax Master Weapons", keySkills: "Partbreaker 3, Critical Boost" } }
+            },
+            // 42. Apex Mizutsune
+            { id: 42, name: "Apex Mizutsune", jpName: "ヌシ・タマミツネ", species: "Leviathan", firstRank: "Apex / Risen", primaryWeakness: "Thunder", secondaryWeakness: "Dragon", habitat: "Red Stronghold, Shrine Ruins",
+              hp: { lr: "N/A", hr: "18,800 HP", mr: "31,000 HP", ar: "72,000 HP" },
+              weaknesses: { Fire: 0, Water: 0, Thunder: 3, Ice: 1, Dragon: 2 },
+              statuses: { Poison: 1, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 1 },
+              counterTips: ["Hellfire bubbles explode on contact; avoid blue explosive bubble rings.", "Focus Thunder elemental damage on head and claws."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 45, fire: 0, water: 0, thunder: 25, ice: 5, dragon: 15 },
+                  { part: "Tail", cut: 60, blunt: 60, ammo: 40, fire: 0, water: 0, thunder: 20, ice: 5, dragon: 10 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Zinogre/Kaiser Mix", weapons: "Zinogre Weapons", keySkills: "Thunder Attack 5, Evade Extender" }, mr: { armor: "MR Anti-Apex Build", weapons: "Master Thunder Weapons", keySkills: "Thunder Attack 5, Critical Boost" } }
+            },
+            // 43. Apex Rathalos
+            { id: 43, name: "Apex Rathalos", jpName: "ヌシ・リオレウス", species: "Flying Wyvern", firstRank: "Apex / Risen", primaryWeakness: "Dragon", secondaryWeakness: "Thunder", habitat: "Red Stronghold, Lava Caverns",
+              hp: { lr: "N/A", hr: "19,200 HP", mr: "32,000 HP", ar: "74,000 HP" },
+              weaknesses: { Fire: 0, Water: 1, Thunder: 2, Ice: 1, Dragon: 3 },
+              statuses: { Poison: 0, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 1 },
+              counterTips: ["Fires carpet-bombing inferno streams; stay underneath or behind.", "Flash bombs temporarily blind but do not ground Apex in frenzy mode."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 50, fire: 0, water: 10, thunder: 15, ice: 10, dragon: 25 },
+                  { part: "Wings", cut: 45, blunt: 45, ammo: 25, fire: 0, water: 10, thunder: 20, ice: 10, dragon: 20 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Kaiser Mix", weapons: "Valstrax Weapons", keySkills: "Dragon Attack 5, Fire Res" }, mr: { armor: "MR Elder Dragon Mix", weapons: "Master Dragon Weapons", keySkills: "Critical Boost 3, Fire Res 3" } }
+            },
+            // 44. Apex Diablos
+            { id: 44, name: "Apex Diablos", jpName: "ヌシ・ディアブロス", species: "Flying Wyvern", firstRank: "Apex / Risen", primaryWeakness: "Ice", secondaryWeakness: "Water", habitat: "Red Stronghold, Sandy Plains",
+              hp: { lr: "N/A", hr: "20,500 HP", mr: "33,500 HP", ar: "77,000 HP" },
+              weaknesses: { Fire: 0, Water: 2, Thunder: 1, Ice: 3, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 0, Paralysis: 1, Sleep: 1, Blast: 1 },
+              counterTips: ["Executes double steam-burst charges that destroy shields without Guard Up 3.", "Target belly with Ice weapons."],
+              hzv: [
+                  { part: "Belly", cut: 65, blunt: 65, ammo: 55, fire: 0, water: 15, thunder: 10, ice: 25, dragon: 5 },
+                  { part: "Tail Tip", cut: 55, blunt: 55, ammo: 40, fire: 0, water: 10, thunder: 5, ice: 20, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Diablos/Kaiser Mix", weapons: "Goss Harag Weapons", keySkills: "Guard Up 3, Ice Attack 5" }, mr: { armor: "MR Guard Tank Build", weapons: "Lunagaron Master Weapons", keySkills: "Guard Up 3, Guard 5, Ice Attack" } }
+            },
+            // 45. Apex Zinogre
+            { id: 45, name: "Apex Zinogre", jpName: "ヌシ・ジンオウガ", species: "Fanged Wyvern", firstRank: "Apex / Risen", primaryWeakness: "Ice", secondaryWeakness: "Water", habitat: "Red Stronghold, Shrine Ruins",
+              hp: { lr: "N/A", hr: "21,000 HP", mr: "34,000 HP", ar: "80,000 HP" },
+              weaknesses: { Fire: 1, Water: 2, Thunder: 0, Ice: 3, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 0, Paralysis: 0, Sleep: 1, Blast: 1 },
+              counterTips: ["Golden red electricity tracks wirefall recoveries; delay wirefall timing.", "Aim for head to cause Apex state knockouts."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 45, fire: 10, water: 15, thunder: 0, ice: 25, dragon: 0 },
+                  { part: "Back", cut: 55, blunt: 60, ammo: 35, fire: 5, water: 10, thunder: 0, ice: 20, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "Kaiser/Valstrax Mix", weapons: "Barioth/Goss Weapons", keySkills: "Ice Attack 5, Stun Res 3" }, mr: { armor: "MR Anti-Apex Ice Build", weapons: "Master Ice Weapons", keySkills: "Ice Attack 5, Evade Extender" } }
+            },
+            // 46. Daimyo Hermitaur
+            { id: 46, name: "Daimyo Hermitaur", jpName: "ダイミョザザミ", species: "Carapaceon", firstRank: "Master Rank", primaryWeakness: "Thunder", secondaryWeakness: "Fire", habitat: "Jungle, Sandy Plains",
+              hp: { lr: "N/A", hr: "N/A", mr: "19,000 HP", ar: "44,000 HP" },
+              weaknesses: { Fire: 2, Water: 0, Thunder: 3, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Sonic Bombs stagger Hermitaur when it guards behind its claws.", "Blunt weapons shatter its Monoblos skull shell easily."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 50, fire: 15, water: 0, thunder: 25, ice: 5, dragon: 0 },
+                  { part: "Claws (Open)", cut: 60, blunt: 60, ammo: 40, fire: 10, water: 0, thunder: 20, ice: 5, dragon: 0 },
+                  { part: "Skull Shell", cut: 30, blunt: 50, ammo: 20, fire: 15, water: 0, thunder: 20, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Hermitaur Set", weapons: "Hermitaur Crab Axe", keySkills: "Guard 5, Tune-Up, Offense Guard" } }
+            },
+            // 47. Blood Orange Bishaten
+            { id: 47, name: "Blood Orange Bishaten", jpName: "ビシュテンゴ亜種", species: "Fanged Beast", firstRank: "Master Rank", primaryWeakness: "Water", secondaryWeakness: "Ice", habitat: "Lava Caverns, Jungle",
+              hp: { lr: "N/A", hr: "N/A", mr: "20,500 HP", ar: "47,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 1, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 1, Sleep: 1, Blast: 1 },
+              counterTips: ["Hurls exploding pinecones that coat ground in fire; use Water weapons to douse them.", "Trip it off tail balance."],
+              hzv: [
+                  { part: "Head", cut: 70, blunt: 70, ammo: 55, fire: 0, water: 25, thunder: 10, ice: 15, dragon: 0 },
+                  { part: "Tail", cut: 60, blunt: 60, ammo: 40, fire: 0, water: 20, thunder: 5, ice: 10, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "BO Bishaten Set", weapons: "Pinecone Tree", keySkills: "Fire Resistance, Partbreaker" } }
+            },
+            // 48. Garangolm
+            { id: 48, name: "Garangolm", jpName: "剛纏獣 ガランゴルム", species: "Fanged Beast", firstRank: "Master Rank", primaryWeakness: "Thunder / Fire", secondaryWeakness: "Ice", habitat: "Citadel",
+              hp: { lr: "N/A", hr: "N/A", mr: "25,000 HP", ar: "56,000 HP" },
+              weaknesses: { Fire: 2, Water: 0, Thunder: 3, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Coats right arm in fire/moss and left arm in water/ice. Break arm coatings for elemental explosion knockdowns."],
+              hzv: [
+                  { part: "Head", cut: 60, blunt: 65, ammo: 50, fire: 15, water: 0, thunder: 20, ice: 15, dragon: 0 },
+                  { part: "Moss Arm (Right)", cut: 55, blunt: 55, ammo: 40, fire: 0, water: 20, thunder: 25, ice: 10, dragon: 0 },
+                  { part: "Ice Arm (Left)", cut: 55, blunt: 55, ammo: 40, fire: 25, water: 0, thunder: 20, ice: 0, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Golm Set", weapons: "Golm Buster", keySkills: "Charge Master 3, Focus 3" } }
+            },
+            // 49. Shogun Ceanataur
+            { id: 49, name: "Shogun Ceanataur", jpName: "ショウグンギザミ", species: "Carapaceon", firstRank: "Master Rank", primaryWeakness: "Thunder", secondaryWeakness: "Ice", habitat: "Lava Caverns, Swamp",
+              hp: { lr: "N/A", hr: "N/A", mr: "21,000 HP", ar: "48,000 HP" },
+              weaknesses: { Fire: 1, Water: 0, Thunder: 3, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Inflicts severe Bleeding status; crouch or eat Gourmet Fish to heal bleed instantly.", "Break claws to shorten swipe reach."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 50, fire: 10, water: 0, thunder: 25, ice: 15, dragon: 0 },
+                  { part: "Claws", cut: 50, blunt: 50, ammo: 30, fire: 5, water: 0, thunder: 20, ice: 10, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Ceanataur Set", weapons: "Ceanataur Blade", keySkills: "Handicraft 4, Razor Sharp 3" } }
+            },
+            // 50. Aurora Somnacanth
+            { id: 50, name: "Aurora Somnacanth", jpName: "イソネミクニ亜種", species: "Leviathan", firstRank: "Master Rank", primaryWeakness: "Fire", secondaryWeakness: "Thunder", habitat: "Frost Islands, Citadel",
+              hp: { lr: "N/A", hr: "N/A", mr: "22,500 HP", ar: "50,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 2, Ice: 0, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 0, Blast: 3 },
+              counterTips: ["Uses ice spray instead of sleep powder; slide laterally to avoid frost beams.", "Fire weapons shatter its ice crest."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 50, fire: 25, water: 0, thunder: 15, ice: 0, dragon: 0 },
+                  { part: "Crest", cut: 60, blunt: 60, ammo: 45, fire: 20, water: 0, thunder: 10, ice: 0, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Aurora Somna Set", weapons: "Aurora Ice Blade", keySkills: "Ice Attack 5, Evade Window" } }
+            },
+            // 51. Lunagaron
+            { id: 51, name: "Lunagaron", jpName: "氷狼竜 ルナガロン", species: "Fanged Wyvern", firstRank: "Master Rank", primaryWeakness: "Fire", secondaryWeakness: "Thunder", habitat: "Citadel, Frost Islands",
+              hp: { lr: "N/A", hr: "N/A", mr: "23,500 HP", ar: "54,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 2, Ice: 0, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 1, Blast: 3 },
+              counterTips: ["Breaks ice armor on face and chest to trigger heavy knockdowns.", "In werewolf stance, watch out for dual claw lunges."],
+              hzv: [
+                  { part: "Head", cut: 60, blunt: 60, ammo: 45, fire: 25, water: 0, thunder: 15, ice: 0, dragon: 10 },
+                  { part: "Ice Chest", cut: 65, blunt: 65, ammo: 50, fire: 30, water: 0, thunder: 20, ice: 0, dragon: 10 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Lunagaron Helm & Coil", weapons: "Lunagaron Ice Tree", keySkills: "Wirebug Whisperer 3, Agitator" } }
+            },
+            // 52. Astalos
+            { id: 52, name: "Astalos", jpName: "ライゼクス", species: "Flying Wyvern", firstRank: "Master Rank", primaryWeakness: "Ice", secondaryWeakness: "Water", habitat: "Shrine Ruins, Jungle",
+              hp: { lr: "N/A", hr: "N/A", mr: "24,000 HP", ar: "55,000 HP" },
+              weaknesses: { Fire: 1, Water: 2, Thunder: 0, Ice: 3, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 0, Sleep: 2, Blast: 2 },
+              counterTips: ["Target body parts glowing green with electric charge to cause discharge stumbles.", "Ice weapons deal supreme damage."],
+              hzv: [
+                  { part: "Crest (Charged)", cut: 70, blunt: 70, ammo: 55, fire: 10, water: 15, thunder: 0, ice: 25, dragon: 10 },
+                  { part: "Wings (Charged)", cut: 60, blunt: 60, ammo: 45, fire: 5, water: 10, thunder: 0, ice: 20, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Astalos Set", weapons: "Astalos Bolt Blade", keySkills: "Chain Crit (Burst), Stamina Surge" } }
+            },
+            // 53. Seregios
+            { id: 53, name: "Seregios", jpName: "セルレギオス", species: "Flying Wyvern", firstRank: "Master Rank", primaryWeakness: "Thunder", secondaryWeakness: "Ice", habitat: "Sandy Plains, Citadel",
+              hp: { lr: "N/A", hr: "N/A", mr: "23,000 HP", ar: "53,000 HP" },
+              weaknesses: { Fire: 1, Water: 1, Thunder: 3, Ice: 2, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 2, Sleep: 2, Blast: 2 },
+              counterTips: ["Flying scale blades inflict Bleed; eat Gourmet Fish or crouch.", "Seregios weapons sharpen upon dodging/evading."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 50, fire: 10, water: 10, thunder: 25, ice: 15, dragon: 10 },
+                  { part: "Legs", cut: 55, blunt: 55, ammo: 35, fire: 5, water: 5, thunder: 20, ice: 10, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Seregios Set", weapons: "Seregios Sedition", keySkills: "Bladescale Hone 3, Evade Window" } }
+            },
+            // 54. Magma Almudron
+            { id: 54, name: "Magma Almudron", jpName: "オロミドロ亜種", species: "Leviathan", firstRank: "Master Rank", primaryWeakness: "Water", secondaryWeakness: "Ice", habitat: "Lava Caverns",
+              hp: { lr: "N/A", hr: "N/A", mr: "25,500 HP", ar: "58,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 1, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 2, Sleep: 1, Blast: 1 },
+              counterTips: ["When it heats up its magma tail rock, hit it with Water weapons for massive damage.", "Avoid magma geyser trails."],
+              hzv: [
+                  { part: "Heated Magma Tail", cut: 80, blunt: 80, ammo: 65, fire: 0, water: 35, thunder: 10, ice: 20, dragon: 0 },
+                  { part: "Head", cut: 60, blunt: 60, ammo: 45, fire: 0, water: 20, thunder: 5, ice: 10, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Magmadron Set", weapons: "Magma Switch Axe", keySkills: "Fire Attack 5, Element Exploit" } }
+            },
+            // 55. Espinas
+            { id: 55, name: "Espinas", jpName: "エスピナス", species: "Flying Wyvern", firstRank: "Master Rank", primaryWeakness: "Ice", secondaryWeakness: "Water", habitat: "Jungle, Citadel",
+              hp: { lr: "N/A", hr: "N/A", mr: "26,000 HP", ar: "60,000 HP" },
+              weaknesses: { Fire: 0, Water: 2, Thunder: 1, Ice: 3, Dragon: 1 },
+              statuses: { Poison: 1, Stun: 2, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Tough body un-enraged; once enraged, skin softens completely.", "Fireballs cause Poison + Fireblight + Paralyze simultaneously!"],
+              hzv: [
+                  { part: "Head (Enraged)", cut: 75, blunt: 75, ammo: 60, fire: 0, water: 20, thunder: 10, ice: 25, dragon: 10 },
+                  { part: "Belly (Enraged)", cut: 65, blunt: 65, ammo: 50, fire: 0, water: 15, thunder: 5, ice: 20, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Espinas Set", weapons: "Espinas Rose", keySkills: "Foray 3, Poison Attack, Agitator" } }
+            },
+            // 56. Pyre Rakna-Kadaki
+            { id: 56, name: "Pyre Rakna-Kadaki", jpName: "ヤツカダキ亜種", species: "Temnoceran", firstRank: "Master Rank", primaryWeakness: "Water", secondaryWeakness: "Ice", habitat: "Lava Caverns, Citadel",
+              hp: { lr: "N/A", hr: "N/A", mr: "26,500 HP", ar: "61,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 1, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 0 },
+              counterTips: ["Spawns Pyrant offspring that act as detonate fuses.", "Water weapons tear through its explosive silk threadings."],
+              hzv: [
+                  { part: "Head", cut: 60, blunt: 60, ammo: 45, fire: 0, water: 25, thunder: 5, ice: 15, dragon: 0 },
+                  { part: "Webbed Legs", cut: 65, blunt: 65, ammo: 50, fire: 0, water: 30, thunder: 10, ice: 20, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Pyre Rakna Set", weapons: "Pyre Kadaki Bow", keySkills: "Tune-Up, Blast Attack, Spread Up" } }
+            },
+            // 57. Gore Magala
+            { id: 57, name: "Gore Magala", jpName: "ゴア・マガラ", species: "Elder Dragon Relative", firstRank: "Master Rank", primaryWeakness: "Fire", secondaryWeakness: "Dragon", habitat: "Citadel, Jungle, Shrine Ruins",
+              hp: { lr: "N/A", hr: "N/A", mr: "24,500 HP", ar: "57,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 1, Ice: 1, Dragon: 2 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 2, Sleep: 1, Blast: 2 },
+              counterTips: ["When infected with Frenzy, attack aggressively to overcome it for an Affinity buff.", "Break feelers in Frenzy mode."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 50, fire: 25, water: 0, thunder: 10, ice: 10, dragon: 20 },
+                  { part: "Antenna Feelers", cut: 75, blunt: 75, ammo: 60, fire: 30, water: 0, thunder: 10, ice: 10, dragon: 25 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Gore Set", weapons: "Gore Magala Blade", keySkills: "Bloodlust 1, Coalescence, Critical Eye" } }
+            },
+            // 58. Malzeno
+            { id: 58, name: "Malzeno", jpName: "メル・ゼナ", species: "Elder Dragon", firstRank: "Master Rank", primaryWeakness: "Dragon", secondaryWeakness: "Fire", habitat: "Citadel, Lava Caverns",
+              hp: { lr: "N/A", hr: "N/A", mr: "28,500 HP", ar: "62,000 HP" },
+              weaknesses: { Fire: 2, Water: 1, Thunder: 1, Ice: 1, Dragon: 3 },
+              statuses: { Poison: 1, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["When inflicted with Bloodblight, attack Malzeno to leech health back instead of running.", "Hit red chest during Bloodlust."],
+              hzv: [
+                  { part: "Head", cut: 60, blunt: 60, ammo: 45, fire: 15, water: 5, thunder: 5, ice: 5, dragon: 25 },
+                  { part: "Chest (Bloodlust)", cut: 65, blunt: 65, ammo: 50, fire: 20, water: 5, thunder: 5, ice: 5, dragon: 25 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Malzeno Set", weapons: "Duke's Dragon Blade", keySkills: "Blood Rite 3, Weakness Exploit" } }
+            },
+            // 59. Shagaru Magala
+            { id: 59, name: "Shagaru Magala", jpName: "シャガルマガラ", species: "Elder Dragon", firstRank: "Master Rank", primaryWeakness: "Fire", secondaryWeakness: "Dragon", habitat: "Citadel, Sunken Hollow",
+              hp: { lr: "N/A", hr: "N/A", mr: "29,500 HP", ar: "65,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 1, Ice: 1, Dragon: 2 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Evade Extender helps dodge tracking Frenzy blast pillars.", "Hit head continuously when Horns extend."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 50, fire: 25, water: 0, thunder: 10, ice: 10, dragon: 20 },
+                  { part: "Wingarms", cut: 45, blunt: 45, ammo: 25, fire: 15, water: 0, thunder: 5, ice: 5, dragon: 10 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Arc / Storge Set", weapons: "Shagaru Dragon Tree", keySkills: "Bloodlust 3, Coalescence 3" } }
+            },
+            // 60. Gaismagorm
+            { id: 60, name: "Gaismagorm", jpName: "ガイアデルム", species: "Elder Dragon", firstRank: "Master Rank", primaryWeakness: "Dragon", secondaryWeakness: "Fire", habitat: "Abyssal Crater",
+              hp: { lr: "N/A", hr: "N/A", mr: "68,500 HP", ar: "N/A" },
+              weaknesses: { Fire: 2, Water: 1, Thunder: 1, Ice: 1, Dragon: 3 },
+              statuses: { Poison: 1, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Man Ballistae on wall platforms when climbing to destroy red explosive crystallization spheres.", "Hit massive forearms."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 55, fire: 15, water: 5, thunder: 5, ice: 5, dragon: 25 },
+                  { part: "Armwings", cut: 55, blunt: 50, ammo: 40, fire: 15, water: 5, thunder: 5, ice: 5, dragon: 20 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Archfiend Armor Set", weapons: "Abyssal Elder Tree", keySkills: "Dereliction 3, Resentment 5" } }
+            },
+            // 61. Scorned Magnamalo
+            { id: 61, name: "Scorned Magnamalo", jpName: "怨査鬼マガド", species: "Fanged Wyvern", firstRank: "Master Rank", primaryWeakness: "Water", secondaryWeakness: "Thunder", habitat: "Shrine Ruins, Citadel, Lava Caverns",
+              hp: { lr: "N/A", hr: "N/A", mr: "32,000 HP", ar: "72,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 2, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 2, Paralysis: 1, Sleep: 1, Blast: 1 },
+              counterTips: ["Target double arm blades when covered in red Hellfire.", "Wirefall laterally to avoid tracking double uppercut blade slashes."],
+              hzv: [
+                  { part: "Head (Hellfire)", cut: 70, blunt: 70, ammo: 55, fire: 0, water: 25, thunder: 20, ice: 10, dragon: 0 },
+                  { part: "Armblades", cut: 45, blunt: 45, ammo: 25, fire: 0, water: 15, thunder: 10, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Sinister Grudge Set", weapons: "Scorned Magna Blade", keySkills: "Mail of Hellfire 3, Handicraft" } }
+            },
+            // 62. Furious Rajang
+            { id: 62, name: "Furious Rajang", jpName: "激昂したラージャン", species: "Fanged Beast", firstRank: "Master Rank", primaryWeakness: "Ice", secondaryWeakness: "Water", habitat: "Citadel, Lava Caverns",
+              hp: { lr: "N/A", hr: "N/A", mr: "30,000 HP", ar: "70,000 HP" },
+              weaknesses: { Fire: 0, Water: 1, Thunder: 0, Ice: 3, Dragon: 0 },
+              statuses: { Poison: 2, Stun: 0, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Lacks a tail! Hit its head continuously to end its golden Rampage state.", "Dodge its mega lightning spirit bomb jump."],
+              hzv: [
+                  { part: "Head", cut: 60, blunt: 60, ammo: 45, fire: 0, water: 10, thunder: 0, ice: 25, dragon: 0 },
+                  { part: "Torso", cut: 45, blunt: 45, ammo: 30, fire: 0, water: 5, thunder: 0, ice: 15, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Grand Divine Ire", weapons: "Demonlord Buster", keySkills: "Furious 3, Maximum Might" } }
+            },
+            // 63. Lucent Nargacuga
+            { id: 63, name: "Lucent Nargacuga", jpName: "月迅竜 ナルガクルガ", species: "Flying Wyvern", firstRank: "Apex / Risen", primaryWeakness: "Ice", secondaryWeakness: "Dragon", habitat: "Forlorn Arena",
+              hp: { lr: "N/A", hr: "N/A", mr: "29,000 HP", ar: "68,000 HP" },
+              weaknesses: { Fire: 1, Water: 0, Thunder: 1, Ice: 3, Dragon: 2 },
+              statuses: { Poison: 0, Stun: 2, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Equip Poison Resistance Lv 3 for invisible tail spike rain.", "Watch refraction haze to track stealth moves."],
+              hzv: [
+                  { part: "Head", cut: 55, blunt: 60, ammo: 45, fire: 10, water: 0, thunder: 10, ice: 25, dragon: 15 },
+                  { part: "Tail Tip (Enraged)", cut: 65, blunt: 65, ammo: 50, fire: 15, water: 0, thunder: 10, ice: 20, dragon: 15 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Lambent Set", weapons: "Asterism Weapon", keySkills: "Adrenaline Rush 3, Status Trigger" } }
+            },
+            // 64. Seething Bazelgeuse
+            { id: 64, name: "Seething Bazelgeuse", jpName: "紅蓮滾るバゼルギウス", species: "Flying Wyvern", firstRank: "Apex / Risen", primaryWeakness: "Ice", secondaryWeakness: "Thunder", habitat: "Forlorn Arena, Lava Caverns",
+              hp: { lr: "N/A", hr: "N/A", mr: "31,500 HP", ar: "71,000 HP" },
+              weaknesses: { Fire: 0, Water: 1, Thunder: 2, Ice: 3, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 2, Sleep: 2, Blast: 0 },
+              counterTips: ["Purple glowing scales detonate on a huge radius; hit head and tail to cause scale-burst knockdowns."],
+              hzv: [
+                  { part: "Head (Purple)", cut: 75, blunt: 75, ammo: 60, fire: 0, water: 10, thunder: 20, ice: 30, dragon: 10 },
+                  { part: "Tail (Purple)", cut: 70, blunt: 70, ammo: 55, fire: 0, water: 10, thunder: 15, ice: 25, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Bazelgeuse Reu Set", weapons: "Seething Bazel Buster", keySkills: "Defiance 5, Heavy Strike" } }
+            },
+            // 65. Gold Rathian
+            { id: 65, name: "Gold Rathian", jpName: "リオレイア希少種", species: "Flying Wyvern", firstRank: "Apex / Risen", primaryWeakness: "Thunder", secondaryWeakness: "Water", habitat: "Forlorn Arena",
+              hp: { lr: "N/A", hr: "N/A", mr: "29,500 HP", ar: "69,000 HP" },
+              weaknesses: { Fire: 0, Water: 2, Thunder: 3, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 2, Paralysis: 1, Sleep: 1, Blast: 1 },
+              counterTips: ["Head is armored until Incandescence state is triggered; hit legs to cause trips.", "Sever tail to reduce venom flip radius."],
+              hzv: [
+                  { part: "Head (Incandescence)", cut: 65, blunt: 70, ammo: 50, fire: 0, water: 15, thunder: 25, ice: 10, dragon: 0 },
+                  { part: "Wings", cut: 55, blunt: 55, ammo: 35, fire: 0, water: 10, thunder: 20, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Golden Lune Set", weapons: "Gold Rathian Rapier", keySkills: "Status Trigger 3, Defiance" } }
+            },
+            // 66. Silver Rathalos
+            { id: 66, name: "Silver Rathalos", jpName: "リオレウス希少種", species: "Flying Wyvern", firstRank: "Apex / Risen", primaryWeakness: "Water", secondaryWeakness: "Thunder", habitat: "Forlorn Arena",
+              hp: { lr: "N/A", hr: "N/A", mr: "30,000 HP", ar: "70,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 2, Ice: 1, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 2, Paralysis: 1, Sleep: 1, Blast: 1 },
+              counterTips: ["Target wings and tail with Water weapons until Incandescent head state activates.", "Flash bombs blind in air."],
+              hzv: [
+                  { part: "Head (Incandescent)", cut: 65, blunt: 70, ammo: 50, fire: 0, water: 25, thunder: 20, ice: 10, dragon: 0 },
+                  { part: "Wings", cut: 60, blunt: 60, ammo: 40, fire: 0, water: 20, thunder: 15, ice: 5, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Silver Sol Set", weapons: "Silver Rathalos Blade", keySkills: "Element Exploit 3, Critical Element" } }
+            },
+            // 67. Flaming Espinas
+            { id: 67, name: "Flaming Espinas", jpName: "茶棘竜 エスピナス", species: "Flying Wyvern", firstRank: "Apex / Risen", primaryWeakness: "Water", secondaryWeakness: "Ice", habitat: "Forlorn Arena, Tower",
+              hp: { lr: "N/A", hr: "N/A", mr: "31,000 HP", ar: "70,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 1, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 2, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Mega fireball causes Defense Down; bring Adamant Seeds.", "Superdive when it charges its ultimate fiery nuke explosion."],
+              hzv: [
+                  { part: "Head (Angry)", cut: 75, blunt: 75, ammo: 60, fire: 0, water: 25, thunder: 10, ice: 20, dragon: 0 },
+                  { part: "Belly", cut: 60, blunt: 60, ammo: 45, fire: 0, water: 20, thunder: 5, ice: 15, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Flaming Espinas Set", weapons: "Flaming Rose", keySkills: "Intrepid Heart 2, Defiance 5" } }
+            },
+            // 68. Violet Mizutsune
+            { id: 68, name: "Violet Mizutsune", jpName: "焔狐竜 ミツネ", species: "Leviathan", firstRank: "Apex / Risen", primaryWeakness: "Ice", secondaryWeakness: "Thunder", habitat: "Infernal Springs",
+              hp: { lr: "N/A", hr: "N/A", mr: "30,000 HP", ar: "69,000 HP" },
+              weaknesses: { Fire: 0, Water: 0, Thunder: 2, Ice: 3, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 2, Paralysis: 1, Sleep: 1, Blast: 1 },
+              counterTips: ["Gas bubbles explode in flame; hit tail/head while summoning giant gas sphere to trip and detonate it safely."],
+              hzv: [
+                  { part: "Head", cut: 60, blunt: 65, ammo: 45, fire: 0, water: 0, thunder: 15, ice: 25, dragon: 10 },
+                  { part: "Tail Tip", cut: 65, blunt: 60, ammo: 50, fire: 0, water: 0, thunder: 15, ice: 20, dragon: 10 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Onmyo Set", weapons: "Violet Mizu Blade", keySkills: "Embolden 3, Element Exploit" } }
+            },
+            // 69. Risen Chameleos
+            { id: 69, name: "Risen Chameleos", jpName: "傀異克服 オオナズチ", species: "Elder Dragon", firstRank: "Apex / Risen", primaryWeakness: "Fire", secondaryWeakness: "Thunder", habitat: "Jungle, Chasm",
+              hp: { lr: "N/A", hr: "N/A", mr: "33,000 HP", ar: "82,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 2, Ice: 0, Dragon: 1 },
+              statuses: { Poison: 0, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 3 },
+              counterTips: ["Hit head while Risen pulse active to suppress ultimate poisonous fog eruption.", "Fire weapons essential."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 70, ammo: 45, fire: 25, water: 0, thunder: 15, ice: 0, dragon: 10 },
+                  { part: "Tail", cut: 60, blunt: 55, ammo: 40, fire: 20, water: 0, thunder: 10, ice: 0, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Mizuha Risen Set", weapons: "Risen Chameleos Wand", keySkills: "Build-Up Boost 3, Chameleos Blessing" } }
+            },
+            // 70. Chaotic Gore Magala
+            { id: 70, name: "Chaotic Gore Magala", jpName: "渾然たるゴア・マガラ", species: "Elder Dragon Relative", firstRank: "Master Rank", primaryWeakness: "Fire / Dragon", secondaryWeakness: "Thunder", habitat: "Citadel, Sunken Hollow",
+              hp: { lr: "N/A", hr: "N/A", mr: "31,000 HP", ar: "72,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 1, Ice: 1, Dragon: 3 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Asymmetrical attacks combining Gore and Shagaru moves; hit single expanded antenna horn to disrupt frenzy state."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 50, fire: 25, water: 0, thunder: 10, ice: 10, dragon: 25 },
+                  { part: "Single Horn", cut: 75, blunt: 75, ammo: 60, fire: 30, water: 0, thunder: 10, ice: 10, dragon: 30 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Nephilim / Chaos Set", weapons: "Chaotic Weapons", keySkills: "Berserk 2, Strife 3, Bloodlust" } }
+            },
+            // 71. Risen Kushala Daora
+            { id: 71, name: "Risen Kushala Daora", jpName: "傀異克服 クシャルダオラ", species: "Elder Dragon", firstRank: "Apex / Risen", primaryWeakness: "Thunder", secondaryWeakness: "Fire", habitat: "Frost Islands, Citadel",
+              hp: { lr: "N/A", hr: "N/A", mr: "34,000 HP", ar: "85,000 HP" },
+              weaknesses: { Fire: 2, Water: 0, Thunder: 3, Ice: 0, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 3 },
+              counterTips: ["Risen state summons golden wind columns; keep attacking head with Thunder weapons to pop the state."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 45, fire: 15, water: 0, thunder: 25, ice: 0, dragon: 10 },
+                  { part: "Tail Tip", cut: 55, blunt: 50, ammo: 35, fire: 10, water: 0, thunder: 15, ice: 0, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Risen Kushala Armor", weapons: "Risen Daora Weapons", keySkills: "Wind Mantle 3, Powder Mantle" } }
+            },
+            // 72. Risen Teostra
+            { id: 72, name: "Risen Teostra", jpName: "傀異克服 テオ・テスカトル", species: "Elder Dragon", firstRank: "Apex / Risen", primaryWeakness: "Water", secondaryWeakness: "Ice", habitat: "Lava Caverns, Sandy Plains",
+              hp: { lr: "N/A", hr: "N/A", mr: "35,000 HP", ar: "86,000 HP" },
+              weaknesses: { Fire: 0, Water: 3, Thunder: 0, Ice: 2, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 0 },
+              counterTips: ["Risen state blast explosions cover entire arena in flame rings; hit head continuously."],
+              hzv: [
+                  { part: "Head", cut: 60, blunt: 65, ammo: 45, fire: 0, water: 25, thunder: 0, ice: 20, dragon: 10 },
+                  { part: "Tail", cut: 55, blunt: 50, ammo: 35, fire: 0, water: 15, thunder: 0, ice: 10, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Risen Kaiser Armor", weapons: "Risen Teostra Tree", keySkills: "Powder Mantle 3, Critical Boost" } }
+            },
+            // 73. Velkhana
+            { id: 73, name: "Velkhana", jpName: "イヴェルカーナ", species: "Elder Dragon", firstRank: "Master Rank", primaryWeakness: "Fire", secondaryWeakness: "Thunder", habitat: "Frost Islands, Citadel",
+              hp: { lr: "N/A", hr: "N/A", mr: "32,000 HP", ar: "74,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 2, Ice: 0, Dragon: 1 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 3 },
+              counterTips: ["Shatter ice armor parts to cause knockdowns.", "Watch for triple ice beam swipes and falling ice pillars."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 45, fire: 25, water: 0, thunder: 15, ice: 0, dragon: 10 },
+                  { part: "Tail Tip", cut: 60, blunt: 55, ammo: 40, fire: 20, water: 0, thunder: 10, ice: 0, dragon: 5 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Rimeguard Set", weapons: "Velkhana Ice Tree", keySkills: "Frostcraft 3, Focus 3, Quick Sheathe" } }
+            },
+            // 74. Risen Crimson Glow Valstrax
+            { id: 74, name: "Risen Crimson Glow Valstrax", jpName: "傀異克服 バルファルク", species: "Elder Dragon", firstRank: "Apex / Risen", primaryWeakness: "Fire / Water / Thunder / Ice", secondaryWeakness: "Dragon (Uncharged)", habitat: "Citadel, Infernal Springs",
+              hp: { lr: "N/A", hr: "N/A", mr: "38,000 HP", ar: "90,000 HP" },
+              weaknesses: { Fire: 2, Water: 2, Thunder: 2, Ice: 2, Dragon: 0 },
+              statuses: { Poison: 1, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Executes double wing spear thrusts during Risen state; Guard Up 3 or precise emergency leap needed."],
+              hzv: [
+                  { part: "Head", cut: 55, blunt: 55, ammo: 45, fire: 15, water: 15, thunder: 15, ice: 15, dragon: 0 },
+                  { part: "Chest (Charging)", cut: 65, blunt: 65, ammo: 55, fire: 20, water: 20, thunder: 20, ice: 20, dragon: 0 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Virtue / Risen Valstrax", weapons: "Risen Valstrax Weapons", keySkills: "Dragon Conversion 3, Dragonheart" } }
+            },
+            // 75. Amatsu
+            { id: 75, name: "Amatsu", jpName: "アマツマガツチ", species: "Elder Dragon", firstRank: "Master Rank", primaryWeakness: "Fire", secondaryWeakness: "Dragon", habitat: "Sacred Pinnacle",
+              hp: { lr: "N/A", hr: "N/A", mr: "58,000 HP", ar: "N/A" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 0, Ice: 1, Dragon: 2 },
+              statuses: { Poison: 2, Stun: 0, Paralysis: 0, Sleep: 0, Blast: 2 },
+              counterTips: ["Use Great Wirebugs provided on arena floating platforms to avoid tornadoes.", "Fire weapons deal huge damage to head/horns."],
+              hzv: [
+                  { part: "Head / Horns", cut: 70, blunt: 70, ammo: 55, fire: 25, water: 0, thunder: 0, ice: 10, dragon: 20 },
+                  { part: "Tail Tip", cut: 60, blunt: 60, ammo: 45, fire: 20, water: 0, thunder: 0, ice: 5, dragon: 15 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Tempest Set", weapons: "Amatsu Heavenly Tree", keySkills: "Heaven-Sent 3, Wirebug Whisperer" } }
+            },
+            // 76. Risen Shagaru Magala
+            { id: 76, name: "Risen Shagaru Magala", jpName: "傀異克服 シャガルマガラ", species: "Elder Dragon", firstRank: "Apex / Risen", primaryWeakness: "Fire", secondaryWeakness: "Dragon", habitat: "Citadel, Sunken Hollow",
+              hp: { lr: "N/A", hr: "N/A", mr: "36,000 HP", ar: "92,000 HP" },
+              weaknesses: { Fire: 3, Water: 0, Thunder: 1, Ice: 1, Dragon: 2 },
+              statuses: { Poison: 2, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["Risen state unleash non-stop laser pillar explosions; hit head continuously with Fire weapons to suppress.", "Evade Extender 2 mandatory."],
+              hzv: [
+                  { part: "Head", cut: 65, blunt: 65, ammo: 50, fire: 25, water: 0, thunder: 10, ice: 10, dragon: 20 },
+                  { part: "Wingarms", cut: 45, blunt: 45, ammo: 25, fire: 15, water: 0, thunder: 5, ice: 5, dragon: 10 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Virtue / Risen Shagaru", weapons: "Risen Shagaru Weapons", keySkills: "Frenzied Bloodlust 3, Bloodlust" } }
+            },
+            // 77. Primordial Malzeno
+            { id: 77, name: "Primordial Malzeno", jpName: "原初を刻むメル・ゼナ", species: "Elder Dragon", firstRank: "Apex / Risen", primaryWeakness: "Dragon", secondaryWeakness: "Fire", habitat: "Citadel",
+              hp: { lr: "N/A", hr: "N/A", mr: "39,200 HP", ar: "84,000 HP" },
+              weaknesses: { Fire: 2, Water: 1, Thunder: 1, Ice: 1, Dragon: 3 },
+              statuses: { Poison: 1, Stun: 1, Paralysis: 1, Sleep: 1, Blast: 2 },
+              counterTips: ["In its 3rd phase, executes an unending 12-hit frenzy wing combo before resting. Guard Up 3 or continuous dodging required!"],
+              hzv: [
+                  { part: "Head (Normal)", cut: 60, blunt: 60, ammo: 45, fire: 15, water: 5, thunder: 5, ice: 5, dragon: 25 },
+                  { part: "Head (Bloodlust)", cut: 70, blunt: 70, ammo: 55, fire: 20, water: 10, thunder: 10, ice: 10, dragon: 30 },
+                  { part: "Forelegs", cut: 50, blunt: 50, ammo: 35, fire: 15, water: 5, thunder: 5, ice: 5, dragon: 20 }
+              ],
+              progression: { lr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, hr: { armor: "N/A", weapons: "N/A", keySkills: "N/A" }, mr: { armor: "Primordial Set", weapons: "Primordial Dragon Tree", keySkills: "Blood Awakening 3, Blood Rite, Critical Boost" } }
+            }
+        ];
+
+        let currentMonsters = [...MONSTERS_DB];
+        let currentBookmarkOnly = false;
+        let activeBookmarks = JSON.parse(localStorage.getItem('mh_compendium_bookmarks') || '[]');
+        let currentModalMonster = null;
+
+        window.onload = function() {
+            updateStats();
+            renderMonsterCards();
+            setupSearchListener();
+        };
+
+        function toggleBookmark(monsterId, event) {
+            if (event) event.stopPropagation();
+            
+            const index = activeBookmarks.indexOf(monsterId);
+            if (index > -1) {
+                activeBookmarks.splice(index, 1);
+            } else {
+                activeBookmarks.push(monsterId);
+            }
+            
+            localStorage.setItem('mh_compendium_bookmarks', JSON.stringify(activeBookmarks));
+            updateStats();
+            
+            if (currentBookmarkOnly) {
+                applyFilters();
+            } else {
+                renderMonsterCards();
+            }
+
+            if (currentModalMonster && currentModalMonster.id === monsterId) {
+                updateModalBookmarkButton();
+            }
+        }
+
+        function toggleBookmarksFilter() {
+            currentBookmarkOnly = !currentBookmarkOnly;
+            const btn = document.getElementById('btn-bookmarks-only');
+            const icon = document.getElementById('bookmark-filter-icon');
+            
+            if (currentBookmarkOnly) {
+                btn.classList.add('bg-mh-gold/20', 'border-mh-gold', 'text-mh-gold');
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+            } else {
+                btn.classList.remove('bg-mh-gold/20', 'border-mh-gold', 'text-mh-gold');
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+            }
+
+            applyFilters();
+        }
+
+        function updateStats() {
+            document.getElementById('stat-showing').innerText = currentMonsters.length;
+            document.getElementById('bookmark-count').innerText = activeBookmarks.length;
+        }
+
+        function setupSearchListener() {
+            const searchInput = document.getElementById('search-input');
+            const clearBtn = document.getElementById('clear-search');
+
+            searchInput.addEventListener('input', (e) => {
+                if (e.target.value.trim().length > 0) {
+                    clearBtn.classList.remove('hidden');
+                } else {
+                    clearBtn.classList.add('hidden');
+                }
+                applyFilters();
+            });
+        }
+
+        function clearSearch() {
+            const searchInput = document.getElementById('search-input');
+            searchInput.value = '';
+            document.getElementById('clear-search').classList.add('hidden');
+            applyFilters();
+        }
+
+        function resetAllFilters() {
+            clearSearch();
+            document.getElementById('filter-rank').value = 'all';
+            document.getElementById('filter-species').value = 'all';
+            document.getElementById('filter-element').value = 'all';
+            document.getElementById('filter-sort').value = 'num-asc';
+            currentBookmarkOnly = false;
+            
+            const btn = document.getElementById('btn-bookmarks-only');
+            const icon = document.getElementById('bookmark-filter-icon');
+            btn.classList.remove('bg-mh-gold/20', 'border-mh-gold', 'text-mh-gold');
+            icon.classList.remove('fa-solid');
+            icon.classList.add('fa-regular');
+
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const selectedRank = document.getElementById('filter-rank').value;
+            const selectedSpecies = document.getElementById('filter-species').value;
+            const selectedElement = document.getElementById('filter-element').value;
+            const selectedSort = document.getElementById('filter-sort').value;
+
+            currentMonsters = MONSTERS_DB.filter(m => {
+                if (currentBookmarkOnly && !activeBookmarks.includes(m.id)) return false;
+
+                if (selectedRank !== 'all') {
+                    if (selectedRank === 'Apex / Risen' && !m.firstRank.includes('Apex') && !m.firstRank.includes('Risen') && !m.name.includes('Apex') && !m.name.includes('Risen')) {
+                        return false;
+                    } else if (selectedRank !== 'Apex / Risen' && m.firstRank !== selectedRank) {
+                        return false;
+                    }
+                }
+
+                if (selectedSpecies !== 'all' && m.species !== selectedSpecies) return false;
+
+                if (selectedElement !== 'all' && m.primaryWeakness !== selectedElement && m.secondaryWeakness !== selectedElement) return false;
+
+                if (query.length > 0) {
+                    const matchName = m.name.toLowerCase().includes(query);
+                    const matchJp = m.jpName.toLowerCase().includes(query);
+                    const matchSpecies = m.species.toLowerCase().includes(query);
+                    const matchPrimary = m.primaryWeakness.toLowerCase().includes(query);
+                    const matchHabitat = m.habitat.toLowerCase().includes(query);
+                    if (!matchName && !matchJp && !matchSpecies && !matchPrimary && !matchHabitat) return false;
+                }
+
+                return true;
+            });
+
+            // Sorting
+            currentMonsters.sort((a, b) => {
+                if (selectedSort === 'num-asc') return a.id - b.id;
+                if (selectedSort === 'name-asc') return a.name.localeCompare(b.name);
+                if (selectedSort === 'name-desc') return b.name.localeCompare(a.name);
+                
+                const rankOrder = { "Low Rank": 1, "High Rank": 2, "Master Rank": 3, "Apex / Risen": 4 };
+                if (selectedSort === 'rank-asc') return (rankOrder[a.firstRank] || 3) - (rankOrder[b.firstRank] || 3);
+                
+                return 0;
+            });
+
+            renderActiveTags();
+            renderMonsterCards();
+            updateStats();
+        }
+
+        function renderActiveTags() {
+            const container = document.getElementById('active-tags');
+            container.innerHTML = '';
+
+            const selectedRank = document.getElementById('filter-rank').value;
+            const selectedSpecies = document.getElementById('filter-species').value;
+            const selectedElement = document.getElementById('filter-element').value;
+
+            if (selectedRank !== 'all') {
+                container.innerHTML += `<span class="bg-mh-bg border border-mh-border text-slate-300 px-2.5 py-1 rounded-full flex items-center gap-1.5">Rank: ${selectedRank}</span>`;
+            }
+            if (selectedSpecies !== 'all') {
+                container.innerHTML += `<span class="bg-mh-bg border border-mh-border text-slate-300 px-2.5 py-1 rounded-full flex items-center gap-1.5">Species: ${selectedSpecies}</span>`;
+            }
+            if (selectedElement !== 'all') {
+                container.innerHTML += `<span class="bg-mh-bg border border-mh-border text-slate-300 px-2.5 py-1 rounded-full flex items-center gap-1.5">Weakness: ${selectedElement}</span>`;
+            }
+        }
+
+        function renderMonsterCards() {
+            const grid = document.getElementById('monster-grid');
+            const noResults = document.getElementById('no-results');
+
+            if (currentMonsters.length === 0) {
+                grid.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+
+            grid.innerHTML = currentMonsters.map(monster => {
+                const isBookmarked = activeBookmarks.includes(monster.id);
+                
+                // Elemental Badge Color Helper
+                const getElemColor = (elem) => {
+                    switch(elem) {
+                        case 'Fire': return 'text-orange-400 bg-orange-950/40 border-orange-800/50';
+                        case 'Water': return 'text-sky-400 bg-sky-950/40 border-sky-800/50';
+                        case 'Thunder': return 'text-yellow-400 bg-yellow-950/40 border-yellow-800/50';
+                        case 'Ice': return 'text-cyan-400 bg-cyan-950/40 border-cyan-800/50';
+                        case 'Dragon': return 'text-purple-400 bg-purple-950/40 border-purple-800/50';
+                        default: return 'text-slate-300 bg-slate-800 border-slate-700';
+                    }
+                };
+
+                return `
+                    <div onclick="openModal(${monster.id})" 
+                         class="group relative bg-mh-card hover:bg-mh-cardhover border border-mh-border hover:border-mh-gold/50 rounded-xl p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between shadow-lg">
+                        
+                        <!-- Top Header -->
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-mh-bg border border-mh-border flex items-center justify-center text-mh-gold font-mono font-bold text-sm shadow-inner">
+                                        #${monster.id < 10 ? '0' + monster.id : monster.id}
+                                    </div>
+                                    <div>
+                                        <h3 class="title-font text-sm md:text-base font-bold text-slate-100 group-hover:text-mh-goldlight transition-colors line-clamp-1">${monster.name}</h3>
+                                        <p class="text-[11px] text-slate-400 font-mono">${monster.jpName}</p>
+                                    </div>
+                                </div>
+                                <button onclick="toggleBookmark(${monster.id}, event)" 
+                                        class="text-slate-400 hover:text-mh-gold p-1.5 transition">
+                                    <i class="${isBookmarked ? 'fa-solid fa-bookmark text-mh-gold' : 'fa-regular fa-bookmark'}"></i>
+                                </button>
+                            </div>
+
+                            <!-- Species & Rank Badges -->
+                            <div class="flex flex-wrap gap-1.5 mb-3 text-[10px]">
+                                <span class="bg-mh-bg text-slate-300 px-2 py-0.5 rounded border border-mh-border">${monster.species}</span>
+                                <span class="bg-mh-gold/10 text-mh-gold px-2 py-0.5 rounded border border-mh-gold/30">${monster.firstRank}</span>
+                            </div>
+                        </div>
+
+                        <!-- Weakness Summary -->
+                        <div class="border-t border-mh-border/60 pt-3 mt-2 space-y-1.5">
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="text-slate-400 text-[11px]">Primary Weakness:</span>
+                                <span class="px-2 py-0.5 rounded border text-[11px] font-bold ${getElemColor(monster.primaryWeakness)}">${monster.primaryWeakness}</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="text-slate-400 text-[11px]">Secondary:</span>
+                                <span class="text-slate-300 text-[11px]">${monster.secondaryWeakness}</span>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Hover Highlight -->
+                        <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-mh-gold to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-b-xl"></div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openModal(id) {
+            const monster = MONSTERS_DB.find(m => m.id === id);
+            if (!monster) return;
+
+            currentModalMonster = monster;
+
+            // Header Elements
+            document.getElementById('modal-num').innerText = `#${monster.id < 10 ? '0' + monster.id : monster.id}`;
+            document.getElementById('modal-title').innerText = monster.name;
+            document.getElementById('modal-jp').innerText = monster.jpName;
+            document.getElementById('modal-species').innerText = monster.species;
+            document.getElementById('modal-rank').innerText = monster.firstRank;
+            document.getElementById('modal-habitat-text').innerText = monster.habitat;
+
+            const iconContainer = document.getElementById('modal-icon');
+            iconContainer.innerHTML = `<i class="fa-solid fa-dragon text-mh-gold"></i>`;
+
+            updateModalBookmarkButton();
+
+            // HP Data
+            document.getElementById('hp-lr').innerText = monster.hp.lr;
+            document.getElementById('hp-hr').innerText = monster.hp.hr;
+            document.getElementById('hp-mr').innerText = monster.hp.mr;
+            document.getElementById('hp-ar').innerText = monster.hp.ar;
+
+            // Element Weakness Star Ratings
+            const elemContainer = document.getElementById('modal-element-weakness');
+            elemContainer.innerHTML = Object.entries(monster.weaknesses).map(([elem, stars]) => {
+                const starRating = '★'.repeat(stars) + '☆'.repeat(3 - stars);
+                return `
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-slate-300 font-medium">${elem}</span>
+                        <span class="text-mh-gold font-mono tracking-widest">${starRating}</span>
+                    </div>
+                `;
+            }).join('');
+
+            // Status Weakness Star Ratings
+            const statusContainer = document.getElementById('modal-status-weakness');
+            statusContainer.innerHTML = Object.entries(monster.statuses).map(([status, stars]) => {
+                const starRating = '★'.repeat(stars) + '☆'.repeat(3 - stars);
+                return `
+                    <div class="bg-mh-card p-2 rounded border border-mh-border flex flex-col justify-between">
+                        <span class="text-[10px] text-slate-400">${status}</span>
+                        <span class="text-mh-gold font-mono text-xs tracking-wider">${starRating}</span>
+                    </div>
+                `;
+            }).join('');
+
+            // Counter Tips
+            const tipsContainer = document.getElementById('modal-counter-tips');
+            tipsContainer.innerHTML = monster.counterTips.map(tip => `
+                <li class="leading-relaxed">${tip}</li>
+            `).join('');
+
+            // Render HZV Table
+            renderHZVTable(monster.hzv);
+
+            // Render Progression Builds
+            renderProgression(monster.progression);
+
+            // Default to Tab 1
+            switchTab('overview');
+
+            document.getElementById('detail-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            currentModalMonster = null;
+        }
+
+        function updateModalBookmarkButton() {
+            if (!currentModalMonster) return;
+            const isBookmarked = activeBookmarks.includes(currentModalMonster.id);
+            const icon = document.getElementById('modal-bookmark-icon');
+            if (isBookmarked) {
+                icon.className = 'fa-solid fa-bookmark text-mh-gold';
+            } else {
+                icon.className = 'fa-regular fa-bookmark text-slate-400';
+            }
+        }
+
+        function toggleBookmarkModal() {
+            if (!currentModalMonster) return;
+            toggleBookmark(currentModalMonster.id);
+        }
+
+        function switchTab(tab) {
+            const tabs = ['overview', 'hzv', 'gear'];
+            tabs.forEach(t => {
+                const tabBtn = document.getElementById(`tab-${t}`);
+                const tabContent = document.getElementById(`content-${t}`);
+
+                if (t === tab) {
+                    tabBtn.classList.remove('border-transparent', 'text-slate-400');
+                    tabBtn.classList.add('border-mh-gold', 'text-mh-gold');
+                    tabContent.classList.remove('hidden');
+                } else {
+                    tabBtn.classList.remove('border-mh-gold', 'text-mh-gold');
+                    tabBtn.classList.add('border-transparent', 'text-slate-400');
+                    tabContent.classList.add('hidden');
+                }
+            });
+        }
+
+        function renderHZVTable(hzvData) {
+            const tbody = document.getElementById('modal-hzv-table');
+            tbody.innerHTML = hzvData.map(row => {
+                const getClass = (val, isElement = false) => {
+                    const threshold = isElement ? 20 : 45;
+                    if (val >= threshold) return 'hzv-high';
+                    if (val >= threshold - 15) return 'hzv-med';
+                    return 'hzv-low';
+                };
+
+                return `
+                    <tr class="hover:bg-mh-card/60 transition">
+                        <td class="p-2.5 font-sans font-semibold text-slate-200">${row.part}</td>
+                        <td class="p-2.5 text-center ${getClass(row.cut)}">${row.cut}</td>
+                        <td class="p-2.5 text-center ${getClass(row.blunt)}">${row.blunt}</td>
+                        <td class="p-2.5 text-center ${getClass(row.ammo)}">${row.ammo}</td>
+                        <td class="p-2.5 text-center ${getClass(row.fire, true)}">${row.fire}</td>
+                        <td class="p-2.5 text-center ${getClass(row.water, true)}">${row.water}</td>
+                        <td class="p-2.5 text-center ${getClass(row.thunder, true)}">${row.thunder}</td>
+                        <td class="p-2.5 text-center ${getClass(row.ice, true)}">${row.ice}</td>
+                        <td class="p-2.5 text-center ${getClass(row.dragon, true)}">${row.dragon}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderProgression(progData) {
+            const container = document.getElementById('modal-progression-container');
+            const ranks = [
+                { key: 'lr', title: 'Low Rank (Village)', icon: 'fa-house-chimney text-emerald-400' },
+                { key: 'hr', title: 'High Rank (Hub)', icon: 'fa-shield text-amber-400' },
+                { key: 'mr', title: 'Master Rank / Anomaly (Sunbreak)', icon: 'fa-crown text-purple-400' }
+            ];
+
+            container.innerHTML = ranks.map(r => {
+                const data = progData[r.key];
+                return `
+                    <div class="bg-mh-bg/70 rounded-lg p-4 border border-mh-border">
+                        <div class="flex items-center gap-2 text-xs font-bold text-slate-200 mb-2 border-b border-mh-border/50 pb-2">
+                            <i class="fa-solid ${r.icon}"></i>
+                            <span>${r.title}</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">Recommended Armor:</span>
+                                <span class="text-slate-200 font-medium">${data.armor}</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">Recommended Weapons:</span>
+                                <span class="text-slate-200 font-medium">${data.weapons}</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">Key Armor Skills:</span>
+                                <span class="text-mh-gold font-medium">${data.keySkills}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
+```
