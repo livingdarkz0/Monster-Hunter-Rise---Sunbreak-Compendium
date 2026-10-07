@@ -1,0 +1,22 @@
+{
+  "name": "MH Rise & Sunbreak Master Codex",
+  "short_name": "MH Codex",
+  "description": "Complete 77-monster database for Monster Hunter Rise & Sunbreak",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0c0f14",
+  "theme_color": "#d4af37",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
